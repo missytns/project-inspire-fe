@@ -493,17 +493,7 @@
     window.history.replaceState({}, "", searchUrl);
 
     const visibleReports = reports.filter((report) => {
-      const matchesSearch = [
-        report.title,
-        report.description,
-        report.journey,
-        report.workspace,
-        report.environment,
-        report.frequency,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm);
+      const matchesSearch = report.title.toLowerCase().includes(searchTerm);
       const matchesArchive = archiveMode ? !report.active : report.active;
       const matchesJourney = hasSearch || !activeJourney || report.journey.toLowerCase() === activeJourney.toLowerCase();
       return matchesSearch && matchesArchive && matchesJourney;
