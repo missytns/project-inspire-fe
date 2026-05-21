@@ -1,5 +1,8 @@
 (function () {
-  const API_BASE_URL = "http://localhost:1337";
+  const API_BASE_URL = (() => {
+    if (window.location.protocol === "file:") return "https://uplifting-cheese-44a7f505da.strapiapp.com";
+    return `${window.location.protocol}//${window.location.hostname}:1337`;
+  })();
   const AUTH_STORAGE_KEY = "inspireAuth";
   const form = document.getElementById("loginForm");
   const email = document.getElementById("email");
