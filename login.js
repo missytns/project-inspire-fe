@@ -1,7 +1,15 @@
 (function () {
   const API_BASE_URL = (() => {
-    if (window.location.protocol === "file:") return "https://uplifting-cheese-44a7f505da.strapiapp.com";
-    return `${window.location.protocol}//${window.location.hostname}:1337`;
+    const STRAPI_CLOUD_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  
+    if (
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+    ) {
+      return "http://localhost:1337";
+    }
+  
+    return STRAPI_CLOUD_URL;
   })();
   const AUTH_STORAGE_KEY = "inspireAuth";
   const form = document.getElementById("loginForm");
