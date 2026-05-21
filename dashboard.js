@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = "http://localhost:1337";
+  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;
@@ -147,8 +147,8 @@
   function syncDashboardScale() {
     if (!viewportScale) return;
 
-    const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
-    const isScaledLanding = !isMobileLayout && !resultMode && !document.body.classList.contains("dashboard-detail-open");
+    const isResponsiveLayout = window.matchMedia("(max-width: 1024px)").matches;
+    const isScaledLanding = !isResponsiveLayout && !resultMode && !document.body.classList.contains("dashboard-detail-open");
     const pageScale = isScaledLanding ? Math.min(window.innerWidth / FIGMA_PAGE_WIDTH, 1) : 1;
     const pageScaledHeight = isScaledLanding
       ? (FIGMA_HERO_HEIGHT + FIGMA_CONTENT_HEIGHT) * pageScale
