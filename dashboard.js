@@ -148,8 +148,9 @@
     if (!viewportScale) return;
 
     const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
-    const pageScale = isMobileLayout ? Math.min(window.innerWidth / FIGMA_PAGE_WIDTH, 1) : 1;
-    const pageScaledHeight = isMobileLayout
+    const isScaledLanding = !isMobileLayout && !resultMode && !document.body.classList.contains("dashboard-detail-open");
+    const pageScale = isScaledLanding ? Math.min(window.innerWidth / FIGMA_PAGE_WIDTH, 1) : 1;
+    const pageScaledHeight = isScaledLanding
       ? (FIGMA_HERO_HEIGHT + FIGMA_CONTENT_HEIGHT) * pageScale
       : FIGMA_HERO_HEIGHT + FIGMA_CONTENT_HEIGHT;
 
