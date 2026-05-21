@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspire — Insights Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      const initialParams = new URLSearchParams(window.location.search);
+      if (["archive", "category"].includes(initialParams.get("view"))) {
+        document.documentElement.classList.add("archive-mode");
+      }
+      if (initialParams.get("q")) {
+        document.documentElement.classList.add("search-mode");
+      }
+    </script>
+    <link rel="stylesheet" href="landingpage.css" />
+  </head>
+  <body>
+    <div class="viewport-scale">
+      <div class="landing-page">
+        <!-- Hero: 1512 × 982 -->
+        <section class="landing-hero" aria-label="Hero">
+          <div class="landing-hero__bg" aria-hidden="true">
+            <div class="landing-hero__grid-wrap">
+              <img
+                src="assets/dashboard/2499faec9c078b39bc7d9c32fa361ed3d05b241b.svg"
+                alt=""
+                width="1618"
+                height="1024"
+              />
+            </div>
+            <div class="landing-hero__atmosphere">
+              <div class="landing-hero__layer landing-hero__layer--base">
+                <img src="assets/dashboard/7a868fb8347762e5f60703da90bd56cb0d4b9da6.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--glow-left">
+                <img src="assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--glow-right">
+                <img src="assets/dashboard/aa49777440f9f308a7c9e4afa1d518074ffb66fe.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--mesh">
+                <img src="assets/dashboard/88f353fec0c6e6024ef31bd657731764177261c0.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--chart-left">
+                <img src="assets/dashboard/c0bfc589d61a7922d1dbc3ac57aeba319971f2ed.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--chart-left-inner">
+                <img src="assets/dashboard/6ba28b7c12bd69fdd5fa1f46a24f672f6ef94e58.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--chart-right">
+                <img src="assets/dashboard/10f8b247c502264f9fe38aad449ba952d25503d1.svg" alt="" />
+              </div>
+              <div class="landing-hero__layer landing-hero__layer--chart-right-inner">
+                <img src="assets/dashboard/10eec4871c1e5ccec7290f456f55f2c56db45cbc.svg" alt="" />
+              </div>
+            </div>
+            <div class="landing-hero__layer landing-hero__layer--marketing">
+              <img src="assets/dashboard/db8b51a6ccee4aaabcccb2c5ff28cadc5b9a6130.svg" alt="" />
+            </div>
+            <div class="landing-hero__layer landing-hero__layer--insight-card">
+              <img src="assets/dashboard/0770fe81d1bcc06bfcdfdfc0468e1fea9e350458.svg" alt="" />
+            </div>
+            <div class="landing-hero__layer landing-hero__layer--widget-tr">
+              <img src="assets/dashboard/8ca7cf2456a350448064d949a8a7cc8790fe3459.svg" alt="" />
+            </div>
+          </div>
+
+          <div class="landing-hero__labels" aria-hidden="true">
+            <p class="hero-label hero-label--library">
+              <span class="hero-label__star">✳</span> Knowledge Library
+            </p>
+            <p class="hero-label hero-label--viz">
+              <span class="hero-label__star">✳</span> Data Visualization
+            </p>
+            <p class="hero-label hero-label--insights">
+              <span class="hero-label__star">✳</span> Insights Data
+            </p>
+          </div>
+
+          <header class="landing-nav">
+            <div class="landing-nav__border" aria-hidden="true">
+              <img src="assets/dashboard/2a3024a736ae348390607ec8cda74ee3150f258a.svg" alt="" />
+            </div>
+            <a class="landing-nav__brand" href="landingpage.html" aria-label="Inspire home">
+              <img class="landing-nav__brand-logo" src="assets/logo-inspire.svg" alt="INSPIRE" />
+            </a>
+            <div class="landing-nav__tabs-wrap">
+              <nav class="landing-nav__tabs" aria-label="Categories">
+                <a class="nav-tab" href="#" data-journey="Pre-Sales">Pre-Sales</a>
+                <a class="nav-tab" href="#" data-journey="Sales">Sales</a>
+                <a class="nav-tab" href="#" data-journey="After Sales">After Sales</a>
+                <a class="nav-tab" href="#" data-journey="General">General</a>
+              </nav>
+            </div>
+            <div class="landing-nav__actions">
+              <div class="landing-nav__search">
+                <input
+                  class="landing-nav__search-input"
+                  type="search"
+                  placeholder="Search insight..."
+                  aria-label="Search insight"
+                />
+                <button class="landing-nav__search-btn" type="button" aria-label="Search">
+                  <img
+                    src="assets/dashboard/24dc6b20d586e5214f68a6266ee8bcfe10b6307a.svg"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <a class="landing-nav__archive" href="landingpage.html?view=archive">
+                Archive
+                <img src="assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" alt="" />
+              </a>
+              <a class="landing-nav__logout" href="index.html">Log Out</a>
+            </div>
+          </header>
+
+          <div class="landing-hero__copy">
+            <h1 class="landing-hero__title">
+              The All-in-One Platform to Understand Insights
+            </h1>
+            <a class="landing-hero__cta" href="#favorite">
+              <span class="landing-hero__cta-star">✦</span>
+              <span class="landing-hero__cta-text">Start to Explore</span>
+            </a>
+          </div>
+        </section>
+
+        <div class="landing-transition" aria-hidden="true">
+          <img src="assets/dashboard/23960203e742f6232a9923e7f21b54b3f23e6a27.svg" alt="" />
+        </div>
+
+        <!-- Content: 1512 × 1683 -->
+        <section class="landing-content" aria-label="Projects">
+          <div class="landing-content__bg" aria-hidden="true">
+            <img
+              src="assets/dashboard/2187296e0a7e381637a72ca4ba7e99ecf6fa5974.svg"
+              alt=""
+            />
+          </div>
+
+          <div class="landing-content__inner">
+            <section id="favorite" class="section-block">
+              <h2 class="section-block__title">Favorite</h2>
+              <div class="cards-row cards-row--favorite" id="favoriteReports">
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Auto Claim Sales Program</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--favorite">
+                        <img src="assets/dashboard/fac7502a76b4636def2e574a61de51c3becf3e9b.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/07724322777e2e315a33e2578d2f72c9f87f0815.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Productivity H1</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--favorite">
+                        <img src="assets/dashboard/5fe79eafd98e368a7793439134de82c8d8c94744.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/8984a0e0e9082e771b9ff79252ede4a5c944ee36.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Productivity H23</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--favorite">
+                        <img src="assets/dashboard/6012405b1789fdd6627d91a324cdccbca6dcab3b.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Parts Sales Out</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--favorite">
+                        <img src="assets/dashboard/2642e57402a78136fa0389c2536bf4bbfbdc85f3.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+              </div>
+            </section>
+
+            <section class="section-block section-block--insights">
+              <h2 class="section-block__title">All Insight Project</h2>
+              <nav class="insight-tabs" aria-label="Insight filters">
+                <button class="insight-tab" type="button" data-insight-filter="workspace">
+                  Workspace
+                  <span class="insight-tab__line"></span>
+                </button>
+                <button class="insight-tab" type="button" data-insight-filter="environment">
+                  Environment
+                  <span class="insight-tab__line"></span>
+                </button>
+                <button class="insight-tab" type="button" data-insight-filter="frequency">
+                  Frequency
+                  <span class="insight-tab__line"></span>
+                </button>
+              </nav>
+              <div class="insight-subfilters" id="insightSubfilters" aria-label="Insight subfilters" hidden></div>
+              <div class="cards-row cards-row--insights" id="allReports">
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Auto Claim Sales Program</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/ca8a615c7774f061cda8fb2ae4262d5dbfd39b15.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Productivity H1</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/bc1ecc6811d90133ab92dfb4e04d03f346d08305.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Productivity H23</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/bb8b3034fdac892554e5281d8777c69c914d9498.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Parts Sales Out</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/0f359b788ee63a25c7e482fd434db292d50fdd16.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">NMS Final Consistency</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/0ef1fb2d0031f43f24876c7fbcb85f1b040a1d40.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">NMS Daily Consistency</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/6b029c63ee09a6e47cb0d70a898a1df323fa6ee5.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">NMS Leads Achievement</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/53bfd7d52f9302524a6f25e42b2af4678c76864f.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+                <article class="project-card">
+                  <div class="project-card__glow" aria-hidden="true">
+                    <img src="assets/dashboard/38b9708cc785b2fa824ed77070caa4cf5c2db57b.svg" alt="" />
+                  </div>
+                  <div class="project-card__body">
+                    <h3 class="project-card__name">Digital Maturity Index</h3>
+                    <div class="project-card__thumb-wrap">
+                      <img
+                        class="project-card__thumb"
+                        src="assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png"
+                        alt=""
+                      />
+                      <span class="project-card__pin project-card__pin--link">
+                        <img src="assets/dashboard/e294e9afda0f0ce088b923471ee43a5011f37766.svg" alt="" />
+                      </span>
+                    </div>
+                    <p class="project-card__desc">
+                      Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade
+                      syv. Lörem ipsum dobel grönt elcertifikat.
+                    </p>
+                  </div>
+                  <button class="project-card__btn" type="button">See detail</button>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+        <section class="dashboard-detail" id="dashboardDetail" aria-hidden="true">
+          <div class="dashboard-detail__bg" aria-hidden="true">
+            <img
+              class="dashboard-detail__grid"
+              src="assets/dashboard/2499faec9c078b39bc7d9c32fa361ed3d05b241b.svg"
+              alt=""
+            />
+            <img
+              class="dashboard-detail__wash dashboard-detail__wash--left"
+              src="assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg"
+              alt=""
+            />
+            <img
+              class="dashboard-detail__wash dashboard-detail__wash--right"
+              src="assets/dashboard/aa49777440f9f308a7c9e4afa1d518074ffb66fe.svg"
+              alt=""
+            />
+          </div>
+
+          <header class="dashboard-detail__nav">
+            <button class="dashboard-detail__brand" type="button" data-close-detail aria-label="Back to dashboards">
+              <img class="landing-nav__brand-logo" src="assets/logo-inspire.svg" alt="INSPIRE" />
+            </button>
+            <nav class="dashboard-detail__tabs" aria-label="Dashboard categories">
+              <span class="dashboard-detail__tab dashboard-detail__tab--active">Pre-Sales</span>
+              <span class="dashboard-detail__tab">Sales</span>
+              <span class="dashboard-detail__tab">After Sales</span>
+              <span class="dashboard-detail__tab">General</span>
+            </nav>
+            <div class="dashboard-detail__actions">
+              <div class="dashboard-detail__search" aria-label="Search insight">
+                <span>Search insight...</span>
+                <img src="assets/dashboard/24dc6b20d586e5214f68a6266ee8bcfe10b6307a.svg" alt="" />
+              </div>
+              <a class="dashboard-detail__archive" href="landingpage.html?view=archive">
+                Archive
+                <img src="assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" alt="" />
+              </a>
+              <a class="dashboard-detail__logout" href="index.html">Log Out</a>
+            </div>
+          </header>
+
+          <main class="dashboard-detail__content">
+            <h1 class="dashboard-detail__title" id="detailTitle">Dashboard Digital Maturity Index</h1>
+            <span class="dashboard-detail__badge" id="detailFrequency">Weekly Refresh</span>
+
+            <section class="dashboard-detail__grid-layout" aria-label="Dashboard detail">
+              <article class="dashboard-detail__panel dashboard-detail__panel--embed">
+                <div class="dashboard-detail__embed-shell">
+                  <iframe
+                    class="dashboard-detail__frame"
+                    id="detailFrame"
+                    title="Power BI dashboard detail"
+                    allowfullscreen
+                  ></iframe>
+                  <img class="dashboard-detail__thumb" id="detailThumbnail" alt="" />
+                  <div class="dashboard-detail__empty" id="detailEmpty">
+                    <strong>Dashboard preview</strong>
+                    <span>Power BI URL belum tersedia untuk card ini.</span>
+                  </div>
+                </div>
+                <div class="dashboard-detail__embed-actions" aria-label="Dashboard preview controls">
+                  <button class="dashboard-detail__embed-action" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
+                  <button class="dashboard-detail__embed-action" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
+                  <a
+                    class="dashboard-detail__embed-action"
+                    id="detailOpenNewTab"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Open dashboard in new tab"
+                  >↗</a>
+                </div>
+              </article>
+
+              <article class="dashboard-detail__panel dashboard-detail__panel--objective">
+                <h2>Objective</h2>
+                <p id="detailObjective"></p>
+              </article>
+
+              <article class="dashboard-detail__panel dashboard-detail__panel--usage">
+                <h2>Data Usage</h2>
+                <p id="detailUsage"></p>
+              </article>
+
+              <article class="dashboard-detail__panel dashboard-detail__panel--question">
+                <h2>Business Question</h2>
+                <p id="detailQuestion"></p>
+              </article>
+            </section>
+          </main>
+        </section>
+        <section class="report-modal" id="reportModal" aria-hidden="true">
+          <div class="report-modal__backdrop" data-close-report></div>
+          <div class="report-modal__panel" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+            <header class="report-modal__header">
+              <h2 class="report-modal__title" id="reportModalTitle">Dashboard</h2>
+              <div class="report-modal__actions">
+                <a class="report-modal__open" id="reportModalOpen" href="#" target="_blank" rel="noopener">Open</a>
+                <button class="report-modal__close" type="button" data-close-report aria-label="Close dashboard">Close</button>
+              </div>
+            </header>
+            <div class="report-modal__description" id="reportModalDescription"></div>
+            <iframe
+              class="report-modal__frame"
+              id="reportModalFrame"
+              title="Power BI dashboard"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="dashboard.js"></script>
+  </body>
+</html>
