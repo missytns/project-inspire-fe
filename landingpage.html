@@ -87,7 +87,7 @@
               <img class="landing-nav__brand-logo" src="assets/logo-inspire.svg" alt="INSPIRE" />
             </a>
             <div class="landing-nav__tabs-wrap">
-              <nav class="landing-nav__tabs" aria-label="Categories">
+              <nav class="landing-nav__tabs" id="landingNavMenu" aria-label="Categories">
                 <a class="nav-tab" href="#" data-journey="Pre-Sales">Pre-Sales</a>
                 <a class="nav-tab" href="#" data-journey="Sales">Sales</a>
                 <a class="nav-tab" href="#" data-journey="After Sales">After Sales</a>
@@ -115,6 +115,17 @@
               </a>
               <a class="landing-nav__logout" href="index.html">Log Out</a>
             </div>
+            <button
+              class="landing-nav__menu"
+              type="button"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+              aria-controls="landingNavMenu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </header>
 
           <div class="landing-hero__copy">
@@ -468,32 +479,45 @@
             />
           </div>
 
-          <header class="dashboard-detail__nav">
-            <button class="dashboard-detail__brand" type="button" data-close-detail aria-label="Back to dashboards">
+          <header class="dashboard-detail__nav landing-nav">
+            <button class="dashboard-detail__brand landing-nav__brand" type="button" data-close-detail aria-label="Back to dashboards">
               <img class="landing-nav__brand-logo" src="assets/logo-inspire.svg" alt="INSPIRE" />
             </button>
-            <nav class="dashboard-detail__tabs" aria-label="Dashboard categories">
-              <span class="dashboard-detail__tab dashboard-detail__tab--active">Pre-Sales</span>
-              <span class="dashboard-detail__tab">Sales</span>
-              <span class="dashboard-detail__tab">After Sales</span>
-              <span class="dashboard-detail__tab">General</span>
+            <nav class="dashboard-detail__tabs landing-nav__tabs-wrap landing-nav__tabs" id="dashboardDetailNavMenu" aria-label="Dashboard categories">
+              <span class="dashboard-detail__tab dashboard-detail__tab--active nav-tab">Pre-Sales</span>
+              <span class="dashboard-detail__tab nav-tab">Sales</span>
+              <span class="dashboard-detail__tab nav-tab">After Sales</span>
+              <span class="dashboard-detail__tab nav-tab">General</span>
             </nav>
-            <div class="dashboard-detail__actions">
-              <div class="dashboard-detail__search" aria-label="Search insight">
+            <div class="dashboard-detail__actions landing-nav__actions">
+              <div class="dashboard-detail__search landing-nav__search" aria-label="Search insight">
                 <span>Search insight...</span>
                 <img src="assets/dashboard/24dc6b20d586e5214f68a6266ee8bcfe10b6307a.svg" alt="" />
               </div>
-              <a class="dashboard-detail__archive" href="landingpage.html?view=archive">
+              <a class="dashboard-detail__archive landing-nav__archive" href="landingpage.html?view=archive">
                 Archive
                 <img src="assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" alt="" />
               </a>
-              <a class="dashboard-detail__logout" href="index.html">Log Out</a>
+              <a class="dashboard-detail__logout landing-nav__logout" href="index.html">Log Out</a>
             </div>
+            <button
+              class="landing-nav__menu"
+              type="button"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+              aria-controls="dashboardDetailNavMenu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </header>
 
           <main class="dashboard-detail__content">
-            <h1 class="dashboard-detail__title" id="detailTitle">Dashboard Digital Maturity Index</h1>
-            <span class="dashboard-detail__badge" id="detailFrequency">Weekly Refresh</span>
+            <div class="dashboard-detail__heading">
+              <h1 class="dashboard-detail__title" id="detailTitle">Dashboard Digital Maturity Index</h1>
+              <span class="dashboard-detail__badge" id="detailFrequency">Weekly Refresh</span>
+            </div>
 
             <section class="dashboard-detail__grid-layout" aria-label="Dashboard detail">
               <article class="dashboard-detail__panel dashboard-detail__panel--embed">

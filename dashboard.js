@@ -1,5 +1,16 @@
 (function () {
-  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = (() => {
+    const STRAPI_CLOUD_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+
+    if (
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+    ) {
+      return "http://localhost:1337";
+    }
+
+    return STRAPI_CLOUD_URL;
+  })();
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;
@@ -27,6 +38,7 @@
   const allContainer = document.getElementById("allReports");
   const searchInput = document.querySelector(".landing-nav__search-input");
   const searchButton = document.querySelector(".landing-nav__search-btn");
+  const navMenuButtons = Array.from(document.querySelectorAll(".landing-nav__menu"));
   const navTabs = Array.from(document.querySelectorAll(".nav-tab[data-journey]"));
   const tabs = Array.from(document.querySelectorAll(".insight-tab"));
   const insightSubfilters = document.getElementById("insightSubfilters");
@@ -142,6 +154,17 @@
 
     landingNav?.classList.remove("landing-nav--searching");
     searchButton?.setAttribute("aria-expanded", "false");
+  }
+
+  function setNavMenuOpen(isOpen, nav = landingNav) {
+    nav?.classList.toggle("landing-nav--menu-open", isOpen);
+    nav?.querySelector(".landing-nav__menu")?.setAttribute("aria-expanded", String(isOpen));
+  }
+
+  function closeAllNavMenus() {
+    document.querySelectorAll(".landing-nav--menu-open").forEach((nav) => {
+      setNavMenuOpen(false, nav);
+    });
   }
 
   function syncDashboardScale() {
@@ -620,11 +643,18 @@
       searchInput?.focus();
       renderReports();
     });
+    navMenuButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const nav = button.closest(".landing-nav");
+        setNavMenuOpen(!nav?.classList.contains("landing-nav--menu-open"), nav);
+      });
+    });
 
     document.addEventListener("click", function (event) {
       if (!(event.target instanceof Element)) return;
       if (event.target.closest(".landing-nav")) return;
       closeNavSearch();
+      closeAllNavMenus();
     });
 
     navTabs.forEach((tab) => {
@@ -638,6 +668,7 @@
 
         navTabs.forEach((item) => item.classList.remove("nav-tab--active"));
         tab.classList.add("nav-tab--active");
+        closeAllNavMenus();
         activeJourney = journey;
         const url = new URL(window.location.href);
         url.searchParams.set("view", "category");
@@ -687,6 +718,7 @@
         searchInput?.blur();
         closeNavSearch(true);
       }
+      closeAllNavMenus();
     });
   }
 
