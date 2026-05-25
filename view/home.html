@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspire — Insights Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { accent: "#e6383c" },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .nav-searching .nav-hide { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
+      .nav-searching .nav-search { flex: 1; margin-left: 0; }
+      .cards-scroll { scrollbar-width: none; }
+      .cards-scroll::-webkit-scrollbar { display: none; }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      const _q = new URLSearchParams(window.location.search).get("q");
+      if (_q) document.documentElement.classList.add("search-mode");
+    </script>
+  </head>
+  <body class="bg-[#10081d] font-sans text-white antialiased">
+    <div class="overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="relative w-full min-h-[700px] lg:min-h-[982px] overflow-hidden bg-[#10081d]" aria-label="Hero">
+
+      <!-- Background layers (decorative) -->
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <!-- Grid background -->
+        <div class="absolute inset-0">
+          <img src="../assets/bg_bosku.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+        </div>
+        <!-- Glow left -->
+        <img src="../assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt=""
+          class="absolute -left-1/4 top-0 w-2/3 h-full opacity-60" />
+        <!-- Glow right -->
+        <img src="../assets/dashboard/aa49777440f9f308a7c9e4afa1d518074ffb66fe.svg" alt=""
+          class="absolute -right-1/4 top-0 w-2/3 h-full opacity-60" />
+        <!-- Mesh overlay -->
+        <img src="../assets/dashboard/88f353fec0c6e6024ef31bd657731764177261c0.svg" alt=""
+          class="absolute inset-0 w-full h-full object-cover opacity-40" />
+
+        <!-- Chart images (visible on large screens) -->
+        <img src="../assets/Group.png" alt="" class="hidden lg:block absolute left-8 top-[332px] w-[198px] h-[121px] object-contain opacity-70" />
+        <img src="../assets/asset2.png" alt="" class="hidden lg:block absolute left-4 top-[488px] w-[263px] h-[185px] object-contain opacity-55" />
+        <img src="../assets/asset3.png" alt="" class="hidden lg:block absolute right-8 top-[333px] w-[218px] h-[136px] object-contain opacity-55" />
+        <img src="../assets/asset2.png" alt="" class="hidden lg:block absolute right-4 top-[488px] w-[263px] h-[185px] object-contain opacity-50" />
+        <img src="../assets/marketing_innov.png" alt="" class="hidden lg:block absolute left-[241px] bottom-[160px] w-[297px] h-[164px] object-contain" />
+        <img src="../assets/bar_insightproject.png" alt="" class="hidden lg:block absolute right-[120px] bottom-[140px] w-[420px] h-[160px] object-contain" />
+      </div>
+
+      <!-- Floating labels (large screens) -->
+      <div class="hidden lg:block absolute inset-0 pointer-events-none z-10 font-inter" aria-hidden="true">
+        <p class="absolute left-[30.92%] top-[61%] flex items-center gap-1.5 text-[13px] text-white/80 whitespace-nowrap">
+          <span class="text-accent/65">✳</span> Knowledge Library
+        </p>
+        <p class="absolute left-[59.69%] top-[63.73%] flex items-center gap-1.5 text-[13px] text-white/80 whitespace-nowrap">
+          <span class="text-accent/65">✳</span> Data Visualization
+        </p>
+        <p class="absolute left-[44.33%] top-[71.06%] flex items-center gap-1.5 text-[13px] text-white/80 whitespace-nowrap">
+          <span class="text-accent/65">✳</span> Insights Data
+        </p>
+      </div>
+
+      <!-- NAV (rendered by js/navbar.js) -->
+      <div id="navbar-placeholder" class="relative z-50 sticky top-6 mx-auto mt-8 w-[calc(100%-48px)] max-w-[1311px]"></div>
+
+      <!-- Hero copy -->
+      <div class="relative z-10 flex flex-col items-center text-center px-6 mt-16 lg:mt-0 lg:absolute lg:top-[271px] lg:left-1/2 lg:-translate-x-1/2 lg:w-[825px] gap-10">
+        <h1 class="text-4xl lg:text-[64px] font-bold leading-tight text-[#f6f6f6] capitalize">
+          The All-in-One Platform to Understand Insights
+        </h1>
+        <a class="flex items-center gap-4 w-[240px] lg:w-[278px] h-[56px] lg:h-[63px] justify-center rounded-full no-underline cursor-pointer"
+          href="#favorite"
+          style="border: 1px solid transparent; background: linear-gradient(rgba(51,5,5,1), rgba(51,5,5,1)) padding-box, linear-gradient(90deg, rgba(149,29,29,1), rgba(47,9,9,1)) border-box;">
+          <span class="font-inter text-[20px] lg:text-[24px] text-[#fc8484]">✦</span>
+          <span class="font-inter text-[18px] lg:text-[22px] text-[#ffd5d5]">Start to Explore</span>
+        </a>
+      </div>
+
+      <!-- Transition fade to content -->
+      <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-20" aria-hidden="true"
+        style="background: linear-gradient(to bottom, transparent, #140808);">
+      </div>
+    </section>
+
+    <!-- ===================== CONTENT ===================== -->
+    <section class="relative w-full bg-[#140808] pb-20 pt-16" aria-label="Projects">
+
+      <!-- Background decoration -->
+      <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <img src="../assets/dashboard/2187296e0a7e381637a72ca4ba7e99ecf6fa5974.svg" alt=""
+          class="w-full h-full object-cover opacity-60 rotate-180" />
+      </div>
+
+      <div class="relative z-10 max-w-[1300px] mx-auto px-6 lg:px-8 flex flex-col gap-12">
+
+        <!-- Favorite section -->
+        <section id="favorite" class="flex flex-col gap-5">
+          <h2 class="text-[32px] lg:text-[39px] font-bold text-[#f6f6f6] capitalize">Favorite</h2>
+          <div class="flex gap-2.5 overflow-x-auto cards-scroll pb-2" id="favoriteReports">
+            <!-- Cards injected by JS or static fallback below -->
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Auto Claim Sales Program</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-accent border-0 cursor-pointer">
+                    <img src="../assets/dashboard/fac7502a76b4636def2e574a61de51c3becf3e9b.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">
+                  Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv. Lörem ipsum dobel grönt elcertifikat.
+                </p>
+              </div>
+              <button class="w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Productivity H1</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-accent border-0 cursor-pointer">
+                    <img src="../assets/dashboard/5fe79eafd98e368a7793439134de82c8d8c94744.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">
+                  Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv. Lörem ipsum dobel grönt elcertifikat.
+                </p>
+              </div>
+              <button class="w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Productivity H23</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-accent border-0 cursor-pointer">
+                    <img src="../assets/dashboard/6012405b1789fdd6627d91a324cdccbca6dcab3b.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">
+                  Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv. Lörem ipsum dobel grönt elcertifikat.
+                </p>
+              </div>
+              <button class="w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Parts Sales Out</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-accent border-0 cursor-pointer">
+                    <img src="../assets/dashboard/2642e57402a78136fa0389c2536bf4bbfbdc85f3.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">
+                  Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv. Lörem ipsum dobel grönt elcertifikat.
+                </p>
+              </div>
+              <button class="w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+          </div>
+        </section>
+
+        <!-- All Insight Project section -->
+        <section class="flex flex-col gap-5 section-block--insights">
+          <h2 class="section-block__title text-[32px] lg:text-[40px] font-bold text-[#f6f6f6] capitalize">All Insight Project</h2>
+
+          <!-- Insight tabs -->
+          <nav class="insight-tabs flex items-center gap-2 flex-wrap" aria-label="Insight filters">
+            <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="workspace">
+              Workspace
+              <span class="insight-tab__line hidden"></span>
+            </button>
+            <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="environment">
+              Environment
+              <span class="insight-tab__line hidden"></span>
+            </button>
+            <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="frequency">
+              Frequency
+              <span class="insight-tab__line hidden"></span>
+            </button>
+          </nav>
+
+          <!-- Subfilters -->
+          <div class="flex items-center gap-2 flex-wrap" id="insightSubfilters" aria-label="Insight subfilters" hidden></div>
+
+          <!-- Cards grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center" id="allReports">
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Auto Claim Sales Program</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/ca8a615c7774f061cda8fb2ae4262d5dbfd39b15.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv. Lörem ipsum dobel grönt elcertifikat.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Productivity H1</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/bc1ecc6811d90133ab92dfb4e04d03f346d08305.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Productivity H23</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/bb8b3034fdac892554e5281d8777c69c914d9498.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Parts Sales Out</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/0f359b788ee63a25c7e482fd434db292d50fdd16.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">NMS Final Consistency</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/0ef1fb2d0031f43f24876c7fbcb85f1b040a1d40.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">NMS Daily Consistency</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/6b029c63ee09a6e47cb0d70a898a1df323fa6ee5.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">NMS Leads Achievement</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/53bfd7d52f9302524a6f25e42b2af4678c76864f.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+            <article class="project-card relative flex-shrink-0 flex flex-col items-center gap-6 w-[280px] lg:w-[317px] p-6 rounded-[28px] overflow-hidden cursor-pointer"
+              style="background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);">
+              <div class="absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90" aria-hidden="true"
+                style="background: url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat;"></div>
+              <div class="relative z-10 flex flex-col gap-4 w-full">
+                <h3 class="text-center font-bold text-[19px] text-white whitespace-nowrap">Digital Maturity Index</h3>
+                <div class="relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden">
+                  <img class="absolute w-[148%] h-[111%] -left-[21%] -top-[8%] max-w-none" src="../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png" alt="" />
+                  <button class="project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] bg-[#a5a5a5] border-0 cursor-pointer">
+                    <img src="../assets/dashboard/e294e9afda0f0ce088b923471ee43a5011f37766.svg" class="w-[22px] h-[22px]" alt="" />
+                  </button>
+                </div>
+                <p class="project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3">Lörem ipsum dobel grönt elcertifikat. Metrodiktisk nånat dassa. Benade syv.</p>
+              </div>
+              <button class="project-card__btn w-full py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold transition-colors" type="button">See detail</button>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/home.js"></script>
+    </div>
+  </body>
+</html>
