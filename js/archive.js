@@ -28,16 +28,10 @@
   const allInsightTitle = document.querySelector(".section-block--insights .section-block__title");
   const params = new URLSearchParams(window.location.search);
   const pageView = params.get("view");
-  const archiveMode = pageView === "archive";
   const categoryMode = pageView === "category";
+  const archiveMode = !categoryMode;
   const requestedJourney = params.get("journey") || "";
   const requestedSearch = params.get("q") || "";
-
-  const insightOptions = {
-    workspace: ["Marvel", "Shield"],
-    environment: ["Operation", "Development"],
-    frequency: ["Monthly", "Weekly", "Daily", "Ad Hoc"],
-  };
 
   let reports = [];
   let pinnedDashboardIds = new Set();
@@ -85,11 +79,11 @@
 
   function setTabActive(tab, active) {
     if (active) {
-      tab.classList.remove("bg-[#1c1c1c]", "border-[#8d8d8d]");
-      tab.classList.add("bg-accent", "border-accent/85");
+      tab.classList.add("is-active");
+      tab.setAttribute("aria-current", "page");
     } else {
-      tab.classList.remove("bg-accent", "border-accent/85");
-      tab.classList.add("bg-[#1c1c1c]", "border-[#8d8d8d]");
+      tab.classList.remove("is-active");
+      tab.removeAttribute("aria-current");
     }
   }
 
@@ -177,11 +171,16 @@
 
   function createCard(report, fullWidth = false) {
     const article = document.createElement("article");
-    article.className = `project-card relative flex flex-col items-center gap-6 ${fullWidth ? "w-full" : "flex-shrink-0 w-[280px] lg:w-[317px]"} p-6 rounded-[28px] overflow-hidden`;
-    article.style.cssText = "background: rgba(68,68,68,0.65); box-shadow: inset -1px 1px 11px 0 #e6383c, 0 14px 24px 0 rgba(0,0,0,0.05);";
+    article.className = `project-card relative flex flex-col items-center ${fullWidth ? "w-full max-w-[292px]" : "flex-shrink-0 w-[270px] lg:w-[292px]"} px-5 pt-6 pb-5 rounded-[18px] overflow-hidden`;
+    article.style.cssText = [
+      "min-height:347px",
+      "background: radial-gradient(circle at 50% -10%, rgba(239,61,66,0.88) 0%, rgba(113,35,36,0.78) 34%, rgba(50,45,45,0.8) 70%, rgba(30,30,30,0.92) 100%)",
+      "border:1px solid rgba(239,61,66,0.42)",
+      "box-shadow: inset -1px 1px 12px rgba(255,91,96,0.72), 0 10px 22px rgba(0,0,0,0.24), 0 0 18px rgba(230,56,60,0.3)",
+    ].join(";");
 
     const glow = document.createElement("div");
-    glow.className = "absolute left-1/2 -top-20 w-[318px] h-[254px] -translate-x-1/2 pointer-events-none opacity-90";
+    glow.className = "absolute left-1/2 -top-24 w-[320px] h-[250px] -translate-x-1/2 pointer-events-none opacity-95";
     glow.setAttribute("aria-hidden", "true");
     glow.style.background = CARD_TOP_GLOW;
     article.appendChild(glow);
@@ -190,41 +189,43 @@
     body.className = "relative z-10 flex flex-col gap-4 w-full";
 
     const name = document.createElement("h3");
-    name.className = "text-center font-bold text-[19px] text-white";
-    name.style.whiteSpace = "nowrap";
+    name.className = "project-card__name text-center font-bold text-[18px] leading-tight text-white";
+    name.style.cssText = "white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;";
     name.textContent = report.title;
     body.appendChild(name);
 
     const thumbWrap = document.createElement("div");
-    thumbWrap.className = "relative w-[220px] h-[148px] mx-auto rounded-[17px] overflow-hidden";
+    thumbWrap.className = "relative w-full max-w-[220px] h-[140px] mx-auto rounded-[14px] overflow-hidden bg-white";
 
     const thumb = document.createElement("img");
-    thumb.className = "absolute max-w-none";
-    thumb.style.cssText = "width:148%;height:111%;left:-21%;top:-8%;";
+    thumb.className = "absolute inset-0 w-full h-full object-cover";
     thumb.src = report.thumbnail;
     thumb.alt = "";
     thumbWrap.appendChild(thumb);
 
     const pinBtn = document.createElement("button");
-    pinBtn.className = `project-card__pin absolute right-0 bottom-0 w-[29px] h-[29px] flex items-center justify-center rounded-[8px] border-0 cursor-pointer ${report.favorite ? "bg-accent" : "bg-[#a5a5a5]"}`;
+    pinBtn.className = "project-card__pin absolute right-0 bottom-0 w-[30px] h-[30px] flex items-center justify-center rounded-[8px] border border-white/35 cursor-pointer";
+    pinBtn.style.background = report.favorite ? "#e6383c" : "#a5a5a5";
     pinBtn.type = "button";
     pinBtn.setAttribute("aria-label", `${report.favorite ? "Unpin" : "Pin"} ${report.title}`);
+    pinBtn.setAttribute("aria-pressed", report.favorite ? "true" : "false");
     const pinImg = document.createElement("img");
     pinImg.src = report.favorite ? FAVORITE_PIN : LINK_PIN;
-    pinImg.className = "w-[22px] h-[22px]";
+    pinImg.className = "w-[21px] h-[21px]";
     pinBtn.appendChild(pinImg);
     thumbWrap.appendChild(pinBtn);
     body.appendChild(thumbWrap);
 
     const desc = document.createElement("p");
-    desc.className = "project-card__desc text-[13px] font-medium leading-relaxed text-white text-justify line-clamp-3";
+    desc.className = "project-card__desc w-full max-w-[220px] mx-auto text-[13px] font-medium leading-snug text-white line-clamp-3 min-h-[54px]";
+    desc.style.cssText = "text-align:justify;text-align-last:left;text-justify:inter-word;";
     desc.textContent = excerpt(report.description) || "No description available.";
     body.appendChild(desc);
     article.appendChild(body);
 
     const btn = document.createElement("button");
-    btn.className = "project-card__btn w-full py-2.5 rounded-full border border-white/20 text-white text-sm font-semibold transition-colors";
-    btn.style.background = "rgba(255,255,255,0.1)";
+    btn.className = "project-card__btn relative z-10 mt-auto w-full h-[36px] rounded-full border-0 text-white text-[12px] font-semibold transition-colors";
+    btn.style.background = "#f0333b";
     btn.type = "button";
     btn.textContent = "See detail";
     article.appendChild(btn);
@@ -271,13 +272,10 @@
       window.alert(`Maksimal ${FAVORITE_LIMIT} dashboard yang bisa di-pin. Unpin dashboard lama dulu.`);
       return;
     }
-    if (!source.backendId && !source.documentId) {
-      window.alert("Dashboard ini belum tersambung ke data Strapi, jadi belum bisa di-pin.");
-      return;
-    }
     const prev = source.favorite;
     source.favorite = !source.favorite;
     renderReports();
+    if (!source.backendId && !source.documentId) return;
     try {
       const res = await fetch(TOGGLE_PIN_ENDPOINT, {
         method: "POST",

@@ -51,24 +51,14 @@
     </div>
 
     <!-- ===================== CONTENT ===================== -->
-    <main class="relative max-w-[1300px] mx-auto px-6 lg:px-8 py-12 pb-16 flex flex-col gap-8">
+    <main class="relative max-w-[1720px] mx-auto px-6 lg:px-8 py-12 pb-16 flex flex-col gap-8">
 
       <!-- Section title (JS updates this) -->
       <section class="flex flex-col gap-5 section-block--insights">
         <h2 class="section-block__title text-[32px] lg:text-[40px] font-bold text-[#f6f6f6] capitalize">Archive</h2>
 
-        <!-- Insight tabs (hidden in archive/category modes via JS) -->
-        <nav class="insight-tabs flex items-center gap-2 flex-wrap" aria-label="Insight filters" hidden>
-          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="workspace">Workspace</button>
-          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="environment">Environment</button>
-          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="frequency">Frequency</button>
-        </nav>
-
-        <!-- Subfilters -->
-        <div class="flex items-center gap-2 flex-wrap" id="insightSubfilters" aria-label="Insight subfilters" hidden></div>
-
         <!-- Cards grid (filled by JS) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center" id="allReports">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-start" id="allReports">
           <p class="text-white/40 text-sm py-8">Loading...</p>
         </div>
       </section>

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -21,71 +21,81 @@
       };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .login-card {
+        background: linear-gradient(160deg, #2a1a1a 0%, #1a0f0f 60%, #120808 100%);
+        box-shadow: 0 0 0 1px rgba(230,56,60,0.45), 0 0 48px rgba(230,56,60,0.18), 0 24px 48px rgba(0,0,0,0.5);
+      }
+      .login-input {
+        background: rgba(0,0,0,0.35);
+        border: 1px solid rgba(255,255,255,0.12);
+        transition: border-color 0.2s;
+      }
+      .login-input:focus {
+        outline: none;
+        border-color: rgba(230,56,60,0.55);
+      }
+      .login-btn {
+        background: linear-gradient(90deg, #c0282c 0%, #e6383c 50%, #c0282c 100%);
+        box-shadow: 0 4px 20px rgba(230,56,60,0.35);
+        transition: opacity 0.2s, box-shadow 0.2s;
+      }
+      .login-btn:hover { opacity: 0.92; box-shadow: 0 6px 28px rgba(230,56,60,0.5); }
+      .login-btn:active { opacity: 0.85; }
+      .login-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+      .bg-glow {
+        background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(180,30,34,0.55) 0%, transparent 70%);
+      }
+    </style>
   </head>
-  <body class="min-h-screen bg-[#10081d] font-sans text-white antialiased flex items-center justify-center p-4">
-    <div class="overflow-x-hidden min-h-screen flex flex-col">
+  <body class="bg-[#10081d] font-sans text-white antialiased">
+    <div class="overflow-x-hidden min-h-screen flex items-center justify-center p-4">
 
-    <!-- Background grid -->
-    <div class="fixed inset-0 pointer-events-none select-none z-0">
-      <img src="../assets/background-grid.svg" alt="" class="w-full h-full object-cover opacity-30" />
-    </div>
+      <!-- Background -->
+      <div class="fixed inset-0 pointer-events-none select-none z-0" aria-hidden="true">
+        <img src="../assets/background-grid.svg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <div class="bg-glow absolute inset-0"></div>
+      </div>
 
-    <!-- Login card -->
-    <main class="relative z-10 w-full max-w-md" aria-label="Login page">
-      <section class="bg-white/5 border border-white/10 rounded-3xl p-10 shadow-2xl backdrop-blur-sm" aria-labelledby="login-heading">
+      <!-- Login card -->
+      <main class="login-card relative z-10 w-full max-w-[420px] rounded-2xl p-8 sm:p-10" aria-label="Login">
         <form class="flex flex-col gap-6" id="loginForm">
 
-          <header class="flex flex-col gap-2">
-            <h1 id="login-heading" class="text-3xl font-bold leading-tight">
-              <span class="text-white/60">Hello, </span>
-              <span class="text-white">Welcome Back!</span>
-            </h1>
+          <div class="flex flex-col gap-1">
+            <h1 class="text-[28px] font-bold text-white leading-tight">Welcome Back!</h1>
             <p class="text-sm text-white/50">Login to your account.</p>
-          </header>
+          </div>
 
           <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-1.5">
-              <label class="text-sm font-semibold text-white/80" for="email">Email</label>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-semibold text-white/70" for="email">Email</label>
               <input
-                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-accent/60 focus:bg-white/8 transition-colors"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
-                autocomplete="email"
-                required
+                class="login-input w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/25"
+                type="email" id="email" name="email"
+                placeholder="you@example.com" autocomplete="email" required
               />
             </div>
-
-            <div class="flex flex-col gap-1.5">
-              <label class="text-sm font-semibold text-white/80" for="password">Password</label>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-semibold text-white/70" for="password">Password</label>
               <input
-                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-accent/60 transition-colors"
-                type="password"
-                id="password"
-                name="password"
-                placeholder="••••••••"
-                autocomplete="current-password"
-                required
+                class="login-input w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/25"
+                type="password" id="password" name="password"
+                placeholder="••••••••" autocomplete="current-password" required
               />
             </div>
           </div>
 
-          <p class="text-sm text-accent font-medium min-h-5" id="loginError" role="alert" hidden></p>
+          <p class="text-sm text-accent font-medium min-h-5 -mt-2" id="loginError" role="alert" hidden></p>
 
-          <button
-            class="w-full py-3.5 rounded-xl bg-accent hover:bg-accent/90 active:bg-accent/80 text-white font-semibold text-sm transition-colors shadow-lg shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed"
-            type="submit"
-          >
+          <button class="login-btn w-full py-3.5 rounded-full text-white font-semibold text-sm" type="submit">
             Login
           </button>
 
         </form>
-      </section>
-    </main>
+      </main>
 
+    </div>
     <script src="../js/config.js"></script>
     <script src="../js/login.js"></script>
-    </div>
   </body>
 </html>

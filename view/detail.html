@@ -28,6 +28,17 @@
       #detailFrame, #detailThumbnail { transform-origin: top left; }
       .nav-searching .nav-hide { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
       .nav-searching .nav-search { flex: 1; margin-left: 0; }
+      .detail-panel {
+        background: rgba(68, 68, 68, 0.62);
+        border: 1px solid rgba(230, 56, 60, 0.45);
+        box-shadow: inset -1px 1px 11px rgba(230, 56, 60, 0.45), 0 14px 26px rgba(0,0,0,0.12);
+        backdrop-filter: blur(6px);
+      }
+      .detail-preview {
+        background: rgba(68, 68, 68, 0.52);
+        border: 1px solid rgba(230, 56, 60, 0.5);
+        box-shadow: inset -1px 1px 11px rgba(230, 56, 60, 0.5), 0 14px 26px rgba(0,0,0,0.14);
+      }
     </style>
   </head>
   <body class="bg-[#10081d] font-sans text-white antialiased min-h-screen">
@@ -47,7 +58,7 @@
     </div>
 
     <!-- ===================== CONTENT ===================== -->
-    <main class="relative z-10 max-w-[1300px] mx-auto px-6 lg:px-8 py-8 pb-16">
+    <main class="relative z-10 max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16">
 
       <!-- Loading state -->
       <div id="detailLoading" class="flex items-center justify-center py-24">
@@ -61,57 +72,53 @@
       </div>
 
       <!-- Detail content -->
-      <div id="detailContent" class="flex flex-col gap-6" style="display:none;">
+      <div id="detailContent" class="flex flex-col gap-7" style="display:none;">
 
         <!-- Header row -->
-        <div class="flex flex-wrap items-center gap-3">          <h1 class="text-2xl lg:text-3xl font-bold text-white" id="detailTitle">Dashboard</h1>
-          <span class="px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs font-semibold shrink-0" id="detailFrequency">Weekly Refresh</span>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <h1 class="text-[32px] lg:text-[36px] font-bold leading-tight text-white" id="detailTitle">Dashboard</h1>
+          <span class="px-7 py-2.5 rounded-full text-white text-base font-bold shrink-0"
+            id="detailFrequency"
+            style="background: rgba(68,68,68,0.72); border: 1px solid rgba(230,56,60,0.38); box-shadow: inset -1px 1px 11px rgba(230,56,60,0.56), 0 12px 22px rgba(0,0,0,0.18);">
+            Weekly Refresh
+          </span>
         </div>
 
-        <!-- Category tabs (indicator only) -->
-        <nav class="flex flex-wrap items-center gap-1.5" id="dashboardDetailNavMenu" aria-label="Dashboard category">
-          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">Pre-Sales</span>
-          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">Sales</span>
-          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">After Sales</span>
-          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">General</span>
-        </nav>
-
         <!-- Main grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
           <!-- Embed / thumbnail panel -->
-          <article class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-            <div class="relative aspect-video">
+          <article class="detail-preview rounded-lg overflow-hidden p-3">
+            <div class="relative block aspect-[16/8] rounded-lg overflow-hidden bg-black/20 cursor-pointer" id="detailPreviewLink" role="link" tabindex="0" aria-label="Open Power BI dashboard">
               <iframe class="absolute inset-0 w-full h-full" id="detailFrame" title="Power BI dashboard" allowfullscreen></iframe>
               <img class="absolute inset-0 w-full h-full object-cover" id="detailThumbnail" alt="" />
               <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50" id="detailEmpty">
                 <strong class="text-white/70">Dashboard preview</strong>
                 <span class="text-sm">Power BI URL belum tersedia untuk dashboard ini.</span>
               </div>
+              <div class="absolute right-3 bottom-3 flex items-center gap-2 z-20">
+                <button class="w-8 h-8 bg-white/80 hover:bg-white rounded-full text-[#6f6f6f] font-bold transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
+                <button class="w-8 h-8 bg-white/80 hover:bg-white rounded-full text-[#6f6f6f] font-bold transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
+                <span class="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-[#6f6f6f] font-bold">↗</span>
+              </div>
             </div>
-            <div class="flex items-center gap-2 p-4 border-t border-white/10">
-              <button class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white font-bold text-lg transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
-              <button class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white font-bold text-lg transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
-              <a class="ml-auto px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm font-semibold transition-colors no-underline"
-                id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">↗ Open</a>
-            </div>
+            <a class="sr-only" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">Open Power BI</a>
           </article>
 
-          <!-- Info panels -->
-          <div class="flex flex-col gap-4">
-            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Objective</h2>
-              <p class="text-sm text-white/80 leading-relaxed" id="detailObjective"></p>
-            </article>
-            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Data Usage</h2>
-              <p class="text-sm text-white/80 leading-relaxed" id="detailUsage"></p>
-            </article>
-            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Business Question</h2>
-              <p class="text-sm text-white/80 leading-relaxed" id="detailQuestion"></p>
-            </article>
-          </div>
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+            <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Objective</h2>
+            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailObjective"></p>
+          </article>
+
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+            <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Data Usage</h2>
+            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailUsage"></p>
+          </article>
+
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+            <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Business Question</h2>
+            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailQuestion"></p>
+          </article>
 
         </div>
       </div>

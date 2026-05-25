@@ -27,8 +27,10 @@
   const zoomInEl = document.getElementById("detailZoomIn");
   const zoomOutEl = document.getElementById("detailZoomOut");
   const openTabEl = document.getElementById("detailOpenNewTab");
+  const previewLinkEl = document.getElementById("detailPreviewLink");
 
   let zoom = 1;
+  let currentPowerBiUrl = "";
 
 
   function readAuth() {
@@ -97,6 +99,7 @@
   }
 
   function renderReport(report) {
+    currentPowerBiUrl = report.url || "";
     if (titleEl) titleEl.textContent = report.title;
     if (frequencyEl) frequencyEl.textContent = report.frequency ? `${report.frequency} Refresh` : "Weekly Refresh";
     if (objectiveEl) objectiveEl.textContent = report.objective || "—";
@@ -106,11 +109,11 @@
     document.querySelectorAll(".dashboard-detail__tab").forEach((tab) => {
       const active = tab.textContent.trim().toLowerCase() === String(report.journey || "").toLowerCase();
       if (active) {
-        tab.classList.remove("bg-[#1c1c1c]", "border-[#8d8d8d]");
-        tab.classList.add("bg-accent", "border-accent/85");
+        tab.classList.add("is-active");
+        tab.setAttribute("aria-current", "page");
       } else {
-        tab.classList.remove("bg-accent", "border-accent/85");
-        tab.classList.add("bg-[#1c1c1c]", "border-[#8d8d8d]");
+        tab.classList.remove("is-active");
+        tab.removeAttribute("aria-current");
       }
     });
 
@@ -122,14 +125,40 @@
       openTabEl.setAttribute("aria-disabled", report.url ? "false" : "true");
       openTabEl.tabIndex = report.url ? 0 : -1;
     }
+    if (previewLinkEl) {
+      previewLinkEl.setAttribute("aria-disabled", report.url ? "false" : "true");
+      previewLinkEl.tabIndex = report.url ? 0 : -1;
+    }
 
     setZoom(1);
     if (loadingEl) loadingEl.style.display = "none";
     if (contentEl) contentEl.style.display = "flex";
   }
 
-  zoomInEl?.addEventListener("click", () => setZoom(zoom + 0.1));
-  zoomOutEl?.addEventListener("click", () => setZoom(zoom - 0.1));
+  function openPowerBiLink() {
+    if (!currentPowerBiUrl) return;
+    window.open(currentPowerBiUrl, "_blank", "noopener");
+  }
+
+  zoomInEl?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setZoom(zoom + 0.1);
+  });
+  zoomOutEl?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setZoom(zoom - 0.1);
+  });
+  previewLinkEl?.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("button, iframe")) return;
+    openPowerBiLink();
+  });
+  previewLinkEl?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openPowerBiLink();
+  });
 
   document.querySelectorAll(".nav-tab[data-journey]").forEach((tab) => {
     tab.addEventListener("click", function (e) {
@@ -142,14 +171,26 @@
   async function init() {
     if (!reportId) { showError("No dashboard ID provided."); return; }
     try {
-      const res = await fetch(
+      let res = await fetch(
         `${API_BASE_URL}/api/power-bi-dashboards?filters[documentId][$eq]=${encodeURIComponent(reportId)}&populate=*`,
         { headers: authHeaders() }
       );
       if (res.status === 401 || res.status === 403) { redirectToLogin(); return; }
       if (!res.ok) throw new Error(`Strapi returned ${res.status}`);
-      const payload = await res.json();
-      const items = Array.isArray(payload.data) ? payload.data : [];
+      let payload = await res.json();
+      let items = Array.isArray(payload.data) ? payload.data : [];
+
+      if (items.length === 0) {
+        res = await fetch(
+          `${API_BASE_URL}/api/power-bi-dashboards?filters[id][$eq]=${encodeURIComponent(reportId)}&populate=*`,
+          { headers: authHeaders() }
+        );
+        if (res.status === 401 || res.status === 403) { redirectToLogin(); return; }
+        if (!res.ok) throw new Error(`Strapi returned ${res.status}`);
+        payload = await res.json();
+        items = Array.isArray(payload.data) ? payload.data : [];
+      }
+
       if (items.length === 0) { showError("Dashboard not found."); return; }
       renderReport(normalizeReport(items[0]));
     } catch (err) {
