@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspire — Dashboard Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { accent: "#e6383c" },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #detailFrame, #detailThumbnail { transform-origin: top left; }
+      .nav-searching .nav-hide { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
+      .nav-searching .nav-search { flex: 1; margin-left: 0; }
+    </style>
+  </head>
+  <body class="bg-[#10081d] font-sans text-white antialiased min-h-screen">
+    <div class="overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- Background layers -->
+    <div class="fixed inset-0 pointer-events-none select-none z-0" aria-hidden="true">
+      <img src="../assets/bg_bosku.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <img src="../assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt="" class="absolute -left-1/4 top-0 w-2/3 h-full opacity-60" />
+      <img src="../assets/dashboard/aa49777440f9f308a7c9e4afa1d518074ffb66fe.svg" alt="" class="absolute -right-1/4 top-0 w-2/3 h-full opacity-60" />
+      <img src="../assets/dashboard/88f353fec0c6e6024ef31bd657731764177261c0.svg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+    </div>
+
+    <!-- ===================== NAV ===================== -->
+    <div class="relative z-50 sticky top-6 px-6 pt-2">
+      <div id="navbar-placeholder" class="w-full max-w-[1311px] mx-auto"></div>
+    </div>
+
+    <!-- ===================== CONTENT ===================== -->
+    <main class="relative z-10 max-w-[1300px] mx-auto px-6 lg:px-8 py-8 pb-16">
+
+      <!-- Loading state -->
+      <div id="detailLoading" class="flex items-center justify-center py-24">
+        <p class="text-white/40 text-sm">Loading dashboard...</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="detailError" class="flex flex-col items-center justify-center py-24 gap-4" style="display:none;">
+        <p class="text-white/50 text-sm" id="detailErrorMsg">Dashboard not found.</p>
+        <a href="home.html" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-white text-sm font-semibold transition-colors no-underline">← Back to Home</a>
+      </div>
+
+      <!-- Detail content -->
+      <div id="detailContent" class="flex flex-col gap-6" style="display:none;">
+
+        <!-- Header row -->
+        <div class="flex flex-wrap items-center gap-3">          <h1 class="text-2xl lg:text-3xl font-bold text-white" id="detailTitle">Dashboard</h1>
+          <span class="px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs font-semibold shrink-0" id="detailFrequency">Weekly Refresh</span>
+        </div>
+
+        <!-- Category tabs (indicator only) -->
+        <nav class="flex flex-wrap items-center gap-1.5" id="dashboardDetailNavMenu" aria-label="Dashboard category">
+          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">Pre-Sales</span>
+          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">Sales</span>
+          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">After Sales</span>
+          <span class="dashboard-detail__tab nav-tab flex items-center justify-center w-[82px] h-[38px] bg-[#1c1c1c] border border-[#8d8d8d] rounded-lg font-inter text-[10px] font-semibold text-white whitespace-nowrap">General</span>
+        </nav>
+
+        <!-- Main grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Embed / thumbnail panel -->
+          <article class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <div class="relative aspect-video">
+              <iframe class="absolute inset-0 w-full h-full" id="detailFrame" title="Power BI dashboard" allowfullscreen></iframe>
+              <img class="absolute inset-0 w-full h-full object-cover" id="detailThumbnail" alt="" />
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50" id="detailEmpty">
+                <strong class="text-white/70">Dashboard preview</strong>
+                <span class="text-sm">Power BI URL belum tersedia untuk dashboard ini.</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 p-4 border-t border-white/10">
+              <button class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white font-bold text-lg transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
+              <button class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white font-bold text-lg transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
+              <a class="ml-auto px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm font-semibold transition-colors no-underline"
+                id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">↗ Open</a>
+            </div>
+          </article>
+
+          <!-- Info panels -->
+          <div class="flex flex-col gap-4">
+            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Objective</h2>
+              <p class="text-sm text-white/80 leading-relaxed" id="detailObjective"></p>
+            </article>
+            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Data Usage</h2>
+              <p class="text-sm text-white/80 leading-relaxed" id="detailUsage"></p>
+            </article>
+            <article class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <h2 class="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">Business Question</h2>
+              <p class="text-sm text-white/80 leading-relaxed" id="detailQuestion"></p>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/detail.js"></script>
+    </div>
+  </body>
+</html>

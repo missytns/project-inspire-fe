@@ -2,71 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login — Inspire</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="login.css" />
+    <meta http-equiv="refresh" content="0; url=view/login.html" />
+    <title>Inspire</title>
   </head>
   <body>
-    <div class="viewport-center">
-      <main class="login-page" aria-label="Login page">
-        <div class="login-page__background" aria-hidden="true">
-          <img
-            class="login-page__background-image"
-            src="assets/background-grid.svg"
-            alt=""
-            width="1591"
-            height="1095"
-          />
-        </div>
-
-        <section class="login-card" aria-labelledby="login-heading">
-          <form class="login-card__inner" id="loginForm">
-            <header class="login-card__header">
-              <h1 id="login-heading" class="login-card__title">
-                <span class="login-card__title-greeting">Hello, </span>
-                <span class="login-card__title-emphasis">Welcome Back!</span>
-              </h1>
-              <p class="login-card__subtitle">Login to your account.</p>
-            </header>
-
-            <div class="login-form__fields">
-              <div class="login-form__field">
-                <label class="login-form__label" for="email">Email</label>
-                <input
-                  class="login-form__input"
-                  type="email"
-                  id="email"
-                  name="email"
-                  autocomplete="email"
-                  required
-                />
-              </div>
-
-              <div class="login-form__field">
-                <label class="login-form__label" for="password">Password</label>
-                <input
-                  class="login-form__input"
-                  type="password"
-                  id="password"
-                  name="password"
-                  autocomplete="current-password"
-                  required
-                />
-              </div>
-            </div>
-
-            <p class="login-form__error" id="loginError" role="alert" hidden></p>
-            <button class="login-form__submit" type="submit">Login</button>
-          </form>
-        </section>
-      </main>
-    </div>
-    <script src="login.js"></script>
+    <script>window.location.replace("view/login.html");</script>
   </body>
 </html>

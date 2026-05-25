@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — Inspire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { accent: "#e6383c" },
+            fontFamily: { sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-[#10081d] font-sans text-white antialiased flex items-center justify-center p-4">
+    <div class="overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- Background grid -->
+    <div class="fixed inset-0 pointer-events-none select-none z-0">
+      <img src="../assets/background-grid.svg" alt="" class="w-full h-full object-cover opacity-30" />
+    </div>
+
+    <!-- Login card -->
+    <main class="relative z-10 w-full max-w-md" aria-label="Login page">
+      <section class="bg-white/5 border border-white/10 rounded-3xl p-10 shadow-2xl backdrop-blur-sm" aria-labelledby="login-heading">
+        <form class="flex flex-col gap-6" id="loginForm">
+
+          <header class="flex flex-col gap-2">
+            <h1 id="login-heading" class="text-3xl font-bold leading-tight">
+              <span class="text-white/60">Hello, </span>
+              <span class="text-white">Welcome Back!</span>
+            </h1>
+            <p class="text-sm text-white/50">Login to your account.</p>
+          </header>
+
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-white/80" for="email">Email</label>
+              <input
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-accent/60 focus:bg-white/8 transition-colors"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-semibold text-white/80" for="password">Password</label>
+              <input
+                class="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-accent/60 transition-colors"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+          </div>
+
+          <p class="text-sm text-accent font-medium min-h-5" id="loginError" role="alert" hidden></p>
+
+          <button
+            class="w-full py-3.5 rounded-xl bg-accent hover:bg-accent/90 active:bg-accent/80 text-white font-semibold text-sm transition-colors shadow-lg shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed"
+            type="submit"
+          >
+            Login
+          </button>
+
+        </form>
+      </section>
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/login.js"></script>
+    </div>
+  </body>
+</html>

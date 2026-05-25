@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspire — Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { accent: "#e6383c" },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #detailFrame, #detailThumbnail { transform-origin: top left; }
+      .nav-searching .nav-hide { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
+      .nav-searching .nav-search { flex: 1; margin-left: 0; }
+      .cards-scroll { scrollbar-width: none; }
+      .cards-scroll::-webkit-scrollbar { display: none; }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      const _q = new URLSearchParams(window.location.search).get("q");
+      if (_q) document.documentElement.classList.add("search-mode");
+    </script>
+  </head>
+  <body class="bg-[#140808] font-sans text-white antialiased min-h-screen">
+    <div class="overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- ===================== NAV (rendered by js/navbar.js) ===================== -->
+    <div class="sticky top-6 z-50 px-6 pt-2">
+      <div id="navbar-placeholder" class="w-full max-w-[1311px] mx-auto"></div>
+    </div>
+
+    <!-- ===================== CONTENT ===================== -->
+    <main class="relative max-w-[1300px] mx-auto px-6 lg:px-8 py-12 pb-16 flex flex-col gap-8">
+
+      <!-- Section title (JS updates this) -->
+      <section class="flex flex-col gap-5 section-block--insights">
+        <h2 class="section-block__title text-[32px] lg:text-[40px] font-bold text-[#f6f6f6] capitalize">Archive</h2>
+
+        <!-- Insight tabs (hidden in archive/category modes via JS) -->
+        <nav class="insight-tabs flex items-center gap-2 flex-wrap" aria-label="Insight filters" hidden>
+          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="workspace">Workspace</button>
+          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="environment">Environment</button>
+          <button class="insight-tab flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm font-semibold hover:bg-white/10 transition-colors" type="button" data-insight-filter="frequency">Frequency</button>
+        </nav>
+
+        <!-- Subfilters -->
+        <div class="flex items-center gap-2 flex-wrap" id="insightSubfilters" aria-label="Insight subfilters" hidden></div>
+
+        <!-- Cards grid (filled by JS) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center" id="allReports">
+          <p class="text-white/40 text-sm py-8">Loading...</p>
+        </div>
+      </section>
+
+      <!-- Hidden favorite container (JS needs it) -->
+      <div id="favoriteReports" class="hidden"></div>
+
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/archive.js"></script>
+    </div>
+  </body>
+</html>
