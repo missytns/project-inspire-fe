@@ -279,8 +279,11 @@
         headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ dashboardId: source.documentId || source.backendId || source.id }),
       });
-      if (res.status === 401 || res.status === 403) { redirectToLogin(); return; }
+      if (res.status === 401) { redirectToLogin(); return; }
       const payload = await res.json().catch(() => ({}));
+      if (res.status === 403) {
+        throw new Error("Akses pin dashboard belum aktif untuk user ini. Cek permission Authenticated role di Strapi untuk dashboard-pin me/toggle.");
+      }
       if (!res.ok) throw new Error(payload.error?.message || "Pin update failed.");
       source.favorite = Boolean(payload.data?.pinned);
       const pinId = normalizeId(payload.data?.dashboardId || source.documentId || source.backendId || source.id);
