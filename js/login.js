@@ -1,21 +1,15 @@
 (function () {
-  const API_BASE_URL = window.API_BASE_URL || "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
   const AUTH_STORAGE_KEY = "inspireAuth";
+  const LOGIN_SESSION_KEY = "inspireLoginPassed";
   const form = document.getElementById("loginForm");
   const email = document.getElementById("email");
   const password = document.getElementById("password");
   const error = document.getElementById("loginError");
-  const submit = form?.querySelector(".login-form__submit");
+  const submit = form?.querySelector('button[type="submit"]');
 
-  try {
-    const existingAuth = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || "null");
-    if (existingAuth?.jwt) {
-      window.location.replace("home.html");
-      return;
-    }
-  } catch (_error) {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-  }
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  sessionStorage.removeItem(LOGIN_SESSION_KEY);
 
   function showError(message) {
     if (!error) return;
@@ -68,6 +62,7 @@
           user: payload.user || null,
         })
       );
+      sessionStorage.setItem(LOGIN_SESSION_KEY, "true");
       window.location.replace("home.html");
     } catch (loginError) {
       showError(loginError.message || "Login failed. Please try again.");

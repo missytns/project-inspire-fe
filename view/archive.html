@@ -30,6 +30,9 @@
       .nav-searching .nav-search { flex: 1; margin-left: 0; }
       .cards-scroll { scrollbar-width: none; }
       .cards-scroll::-webkit-scrollbar { display: none; }
+      .archive-grid {
+        grid-template-columns: repeat(auto-fill, minmax(292px, 292px));
+      }
       .line-clamp-3 {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -51,14 +54,14 @@
     </div>
 
     <!-- ===================== CONTENT ===================== -->
-    <main class="relative max-w-[1720px] mx-auto px-6 lg:px-8 py-12 pb-16 flex flex-col gap-8">
+    <main class="relative w-full max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16 flex flex-col gap-8">
 
       <!-- Section title (JS updates this) -->
       <section class="flex flex-col gap-5 section-block--insights">
         <h2 class="section-block__title text-[32px] lg:text-[40px] font-bold text-[#f6f6f6] capitalize">Archive</h2>
 
         <!-- Cards grid (filled by JS) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-start" id="allReports">
+        <div class="archive-grid grid gap-5 justify-start" id="allReports">
           <p class="text-white/40 text-sm py-8">Loading...</p>
         </div>
       </section>

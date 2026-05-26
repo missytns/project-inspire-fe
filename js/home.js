@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = window.API_BASE_URL || "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;
@@ -43,8 +43,12 @@
   let pinnedDashboardIds = new Set();
   let activeInsightFilter = tabs.find((t) => t.classList.contains("insight-tab--active"))?.dataset.insightFilter || "";
   let activeInsightValue = "";
+  let searchWasActive = Boolean(requestedSearch);
 
-  if (searchInput && requestedSearch) searchInput.value = requestedSearch;
+  if (searchInput && requestedSearch) {
+    searchInput.value = requestedSearch;
+    openNavSearch();
+  }
 
   // ─── Auth ──────────────────────────────────────────────────────────────────
 
@@ -90,11 +94,15 @@
 
   function setInsightTabActive(tab, active) {
     if (active) {
-      tab.classList.add("bg-accent/20", "border-accent/50", "text-accent");
-      tab.classList.remove("bg-white/5", "border-white/15", "text-white");
+      tab.classList.add("insight-tab--active");
+      tab.classList.add("text-white");
+      tab.classList.remove("text-white/70");
+      tab.setAttribute("aria-pressed", "true");
     } else {
-      tab.classList.remove("bg-accent/20", "border-accent/50", "text-accent");
-      tab.classList.add("bg-white/5", "border-white/15", "text-white");
+      tab.classList.remove("insight-tab--active");
+      tab.classList.remove("text-white");
+      tab.classList.add("text-white/70");
+      tab.setAttribute("aria-pressed", "false");
     }
   }
 
@@ -348,8 +356,9 @@
     options.forEach((option) => {
       const btn = document.createElement("button");
       const isActive = activeInsightValue === option;
-      btn.className = `px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors ${isActive ? "bg-accent/20 border-accent/50 text-accent" : "bg-white/5 border-white/15 text-white hover:bg-white/10"}`;
+      btn.className = `insight-subfilter ${isActive ? "insight-subfilter--active" : ""} px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors ${isActive ? "bg-accent/20 border-accent/50 text-accent" : "bg-white/5 border-white/15 text-white"}`;
       btn.type = "button";
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
       btn.textContent = option;
       btn.addEventListener("click", function () {
         activeInsightValue = activeInsightValue === option ? "" : option;
@@ -376,9 +385,20 @@
     items.forEach((r) => container.appendChild(createCard(r, fullWidth)));
   }
 
+  function matchesTitleSearch(report, searchTerm) {
+    return report.title.toLowerCase().includes(searchTerm);
+  }
+
   function renderReports() {
     const searchTerm = (searchInput?.value || "").trim().toLowerCase();
     const hasSearch = searchTerm.length > 0;
+
+    document.documentElement.classList.toggle("search-mode", hasSearch);
+    document.body.classList.toggle("home-searching", hasSearch);
+    if (hasSearch && !searchWasActive) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+    searchWasActive = hasSearch;
 
     const url = new URL(window.location.href);
     if (hasSearch) { url.searchParams.set("q", searchInput.value.trim()); }
@@ -386,7 +406,7 @@
     window.history.replaceState({}, "", url);
 
     const visible = reports.filter((r) => {
-      const matchSearch = r.title.toLowerCase().includes(searchTerm);
+      const matchSearch = matchesTitleSearch(r, searchTerm);
       return matchSearch && r.active;
     });
 
@@ -427,6 +447,13 @@
       link.addEventListener("click", clearAuth);
     });
 
+    document.querySelector('a[href="#favorite"]')?.addEventListener("click", function (event) {
+      const target = document.getElementById("favorite");
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
     searchInput?.addEventListener("focus", openNavSearch);
     searchInput?.addEventListener("input", renderReports);
     searchButton?.setAttribute("aria-expanded", "false");
@@ -448,9 +475,15 @@
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", function () {
+        const nextFilter = tab.dataset.insightFilter || "";
+        const isActive = activeInsightFilter === nextFilter;
         tabs.forEach((t) => setInsightTabActive(t, false));
-        setInsightTabActive(tab, true);
-        activeInsightFilter = tab.dataset.insightFilter || "";
+        if (isActive) {
+          activeInsightFilter = "";
+        } else {
+          setInsightTabActive(tab, true);
+          activeInsightFilter = nextFilter;
+        }
         activeInsightValue = "";
         renderInsightSubfilters();
         renderReports();

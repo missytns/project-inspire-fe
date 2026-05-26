@@ -83,6 +83,39 @@
         margin-left: auto;
       }
 
+      .landing-nav.nav-searching,
+      .search-mode .landing-nav {
+        padding-inline: 24px;
+      }
+
+      .landing-nav.nav-searching .nav-hide,
+      .search-mode .landing-nav .nav-hide {
+        display: none !important;
+      }
+
+      .landing-nav.nav-searching .landing-nav__search,
+      .search-mode .landing-nav .landing-nav__search {
+        flex: 1 1 auto !important;
+        width: 100%;
+        max-width: none !important;
+        margin-left: 0 !important;
+        height: 60px;
+        border-radius: 999px;
+      }
+
+      .landing-nav.nav-searching .landing-nav__search-input,
+      .search-mode .landing-nav .landing-nav__search-input {
+        font-size: 14px;
+        padding-left: 24px;
+      }
+
+      .landing-nav.nav-searching .landing-nav__search-btn,
+      .search-mode .landing-nav .landing-nav__search-btn {
+        width: 38px;
+        height: 38px;
+        margin-right: 8px;
+      }
+
       .landing-nav__archive,
       .landing-nav__logout,
       .landing-nav__menu,
@@ -123,22 +156,38 @@
         border-color: rgba(255,255,255,0.88);
       }
 
+      .landing-nav__archive:hover {
+        background: #FF5B5B !important;
+        border-color: rgba(255,255,255,0.8);
+      }
+
+      .landing-nav__archive:active,
+      .landing-nav__archive.is-active,
+      .landing-nav__archive[aria-current="page"] {
+        background: #e6383c !important;
+        border-color: rgba(255,255,255,0.88);
+      }
+
       .landing-nav__search-btn,
       .landing-nav__search-btn-mobile {
         background: #f23b40;
       }
 
       @media (max-width: 1023px) {
+        #navbar-placeholder {
+          top: 16px;
+        }
+
         #navbar-placeholder.is_scroll {
           top: 12px !important;
           width: calc(100% - 32px) !important;
         }
 
         .landing-nav {
-          min-height: 68px;
-          border-radius: 34px;
-          padding-inline: 18px;
-          gap: 12px;
+          min-height: 58px;
+          border-radius: 29px;
+          padding-inline: 16px;
+          gap: 10px;
         }
 
         .landing-nav__tabs-wrap,
@@ -150,12 +199,19 @@
 
         .landing-nav__menu {
           display: flex;
+          width: 36px;
+          height: 36px;
           margin-left: auto;
         }
 
         .landing-nav-mobile-search {
           display: flex;
           align-items: center;
+          height: 42px;
+        }
+
+        .landing-nav.nav-searching {
+          padding-inline: 16px;
         }
 
         #navMobileDrawer nav {
@@ -172,7 +228,7 @@
 
       @media (max-width: 420px) {
         .landing-nav__brand img {
-          height: 32px;
+          height: 28px;
         }
       }
     `;
@@ -264,6 +320,23 @@
   const desktopInput = placeholder.querySelector(".landing-nav__search-input");
   const mobileInput = placeholder.querySelector(".landing-nav__search-input-mobile");
   const mobileBtn = placeholder.querySelector(".landing-nav__search-btn-mobile");
+  const archiveLinks = placeholder.querySelectorAll(".landing-nav__archive");
+  const logoutLinks = placeholder.querySelectorAll(".landing-nav__logout");
+
+  const currentPath = window.location.pathname.split("/").pop();
+  const currentView = new URLSearchParams(window.location.search).get("view");
+  if (currentPath === "archive.html" && currentView === "archive") {
+    archiveLinks.forEach((link) => {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    });
+  }
+
+  logoutLinks.forEach((link) => {
+    link.addEventListener("click", function () {
+      localStorage.removeItem("inspireAuth");
+    });
+  });
 
   // Sync mobile search → desktop input so page JS event listeners fire correctly
   mobileInput?.addEventListener("input", function () {

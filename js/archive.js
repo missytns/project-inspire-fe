@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = window.API_BASE_URL || "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;
@@ -35,9 +35,12 @@
 
   let reports = [];
   let pinnedDashboardIds = new Set();
-  let activeJourney = categoryMode ? (requestedJourney || navTabs[0]?.dataset.journey || "") : "";
+  let activeJourney = categoryMode ? requestedJourney : "";
 
-  if (searchInput && requestedSearch) searchInput.value = requestedSearch;
+  if (searchInput && requestedSearch) {
+    searchInput.value = requestedSearch;
+    openNavSearch();
+  }
 
   if (navTabs.length > 0 && activeJourney) {
     navTabs.forEach((tab) => {
@@ -225,7 +228,7 @@
 
     const btn = document.createElement("button");
     btn.className = "project-card__btn relative z-10 mt-auto w-full h-[36px] rounded-full border-0 text-white text-[12px] font-semibold transition-colors";
-    btn.style.background = "#f0333b";
+    btn.style.background = report.active ? "#f0333b" : "#6f6f6f";
     btn.type = "button";
     btn.textContent = "See detail";
     article.appendChild(btn);
@@ -237,13 +240,7 @@
   function makeCardInteractive(article, report) {
     const button = article.querySelector(".project-card__btn");
     const pinButton = article.querySelector(".project-card__pin");
-
-    if (!report.active) {
-      article.style.cursor = "default";
-      if (button) { button.disabled = true; button.style.background = "rgba(165,165,165,0.5)"; }
-      if (pinButton) pinButton.disabled = true;
-      return;
-    }
+    if (!report.active && pinButton) pinButton.disabled = true;
 
     article.style.cursor = "pointer";
     article.setAttribute("role", "button");
@@ -315,6 +312,10 @@
     items.forEach((report) => container.appendChild(createCard(report, fullWidth)));
   }
 
+  function matchesTitleSearch(report, searchTerm) {
+    return report.title.toLowerCase().includes(searchTerm);
+  }
+
   function renderReports() {
     const searchTerm = (searchInput?.value || "").trim().toLowerCase();
     const hasSearch = searchTerm.length > 0;
@@ -325,7 +326,7 @@
     window.history.replaceState({}, "", url);
 
     const visible = reports.filter((r) => {
-      const matchSearch = r.title.toLowerCase().includes(searchTerm);
+      const matchSearch = matchesTitleSearch(r, searchTerm);
       const matchArchive = archiveMode ? !r.active : r.active;
       const matchJourney = hasSearch || !activeJourney || r.journey.toLowerCase() === activeJourney.toLowerCase();
       return matchSearch && matchArchive && matchJourney;
@@ -379,6 +380,10 @@
       tab.addEventListener("click", function (event) {
         event.preventDefault();
         const journey = tab.dataset.journey || "";
+        if (activeJourney === journey) {
+          window.location.href = "home.html";
+          return;
+        }
         window.location.href = `archive.html?view=category&journey=${encodeURIComponent(journey)}`;
       });
     });

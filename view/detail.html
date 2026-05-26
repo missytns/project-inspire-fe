@@ -39,6 +39,20 @@
         border: 1px solid rgba(230, 56, 60, 0.5);
         box-shadow: inset -1px 1px 11px rgba(230, 56, 60, 0.5), 0 14px 26px rgba(0,0,0,0.14);
       }
+      .detail-copy {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        hyphens: auto;
+        white-space: pre-line;
+      }
+      .detail-back-button {
+        background: rgba(68,68,68,0.72);
+        border: 1px solid rgba(230,56,60,0.38);
+        box-shadow: inset -1px 1px 11px rgba(230,56,60,0.56), 0 12px 22px rgba(0,0,0,0.18);
+      }
+      .detail-back-button:hover {
+        filter: brightness(1.08);
+      }
     </style>
   </head>
   <body class="bg-[#10081d] font-sans text-white antialiased min-h-screen">
@@ -75,13 +89,19 @@
       <div id="detailContent" class="flex flex-col gap-7" style="display:none;">
 
         <!-- Header row -->
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <h1 class="text-[32px] lg:text-[36px] font-bold leading-tight text-white" id="detailTitle">Dashboard</h1>
-          <span class="px-7 py-2.5 rounded-full text-white text-base font-bold shrink-0"
-            id="detailFrequency"
-            style="background: rgba(68,68,68,0.72); border: 1px solid rgba(230,56,60,0.38); box-shadow: inset -1px 1px 11px rgba(230,56,60,0.56), 0 12px 22px rgba(0,0,0,0.18);">
-            Weekly Refresh
-          </span>
+        <div class="flex flex-col gap-4">
+          <a href="home.html" class="detail-back-button inline-flex items-center justify-center gap-2 w-fit min-w-[170px] h-9 px-4 rounded-full text-white text-base font-bold no-underline transition">
+            <span class="text-[22px] leading-none" aria-hidden="true">←</span>
+            <span>Back to Home</span>
+          </a>
+          <div class="flex flex-wrap items-center justify-between gap-4 mt-3">
+            <h1 class="text-[32px] lg:text-[36px] font-bold leading-tight text-white text-left" id="detailTitle">Dashboard</h1>
+            <span class="px-7 py-2.5 rounded-full text-white text-base font-bold shrink-0"
+              id="detailFrequency"
+              style="background: rgba(68,68,68,0.72); border: 1px solid rgba(230,56,60,0.38); box-shadow: inset -1px 1px 11px rgba(230,56,60,0.56), 0 12px 22px rgba(0,0,0,0.18);">
+              Weekly Refresh
+            </span>
+          </div>
         </div>
 
         <!-- Main grid -->
@@ -105,19 +125,19 @@
             <a class="sr-only" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">Open Power BI</a>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
             <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Objective</h2>
-            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailObjective"></p>
+            <p class="detail-copy text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailObjective"></p>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
             <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Data Usage</h2>
-            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailUsage"></p>
+            <p class="detail-copy text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailUsage"></p>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center">
+          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
             <h2 class="text-[28px] lg:text-[32px] font-bold text-white mb-6">Business Question</h2>
-            <p class="text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailQuestion"></p>
+            <p class="detail-copy text-[20px] lg:text-[24px] text-white leading-tight text-justify" id="detailQuestion"></p>
           </article>
 
         </div>
