@@ -98,20 +98,20 @@
         display: none !important;
       }
       @media (min-width: 1024px) {
+        .home-hero {
+          min-height: 780px;
+        }
         .home-hero__labels {
-          display: grid !important;
+          display: none !important;
           grid-template-columns: repeat(2, max-content);
           justify-content: center;
-          gap: 38px 230px;
-          position: relative !important;
-          inset: auto !important;
-          left: auto;
-          top: auto;
-          right: auto;
-          bottom: auto;
-          width: 920px;
-          margin: 44px auto 0;
-          transform: none;
+          gap: 44px 190px;
+          position: absolute !important;
+          left: 50%;
+          top: 415px;
+          width: 640px;
+          margin-left: 0;
+          transform: translateX(-50%);
           z-index: 12;
           transition: opacity 0.16s ease, visibility 0.16s ease;
         }
@@ -124,9 +124,9 @@
         }
         .home-hero__label-img {
           display: block;
-          height: 17px;
+          height: 18px;
           width: auto;
-          opacity: 0.82;
+          opacity: 0.86;
         }
         .home-hero__decor-card {
           opacity: 1;
@@ -287,7 +287,7 @@
     <div class="overflow-x-hidden min-h-screen flex flex-col">
 
     <!-- ===================== HERO ===================== -->
-    <section class="home-hero relative w-full min-h-[620px] lg:min-h-[860px] overflow-hidden bg-[#10081d]" aria-label="Hero">
+    <section class="home-hero relative w-full min-h-[620px] lg:min-h-[780px] overflow-hidden bg-[#10081d]" aria-label="Hero">
 
       <!-- Background layers (decorative) -->
       <div class="home-hero__decor absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -295,9 +295,9 @@
         <div class="absolute inset-0">
           <img src="../assets/bg_bosku.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
         </div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[24%] top-[61%] w-[220px] h-[48px] rounded-full" aria-hidden="true"></div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[39%] top-[70%] w-[280px] h-[54px] rounded-full" aria-hidden="true"></div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[70%] top-[61%] w-[220px] h-[48px] rounded-full" aria-hidden="true"></div>
+        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[30%] top-[54%] w-[220px] h-[48px] rounded-full" aria-hidden="true"></div>
+        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[44%] top-[66%] w-[220px] h-[54px] rounded-full" aria-hidden="true"></div>
+        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[60%] top-[58%] w-[260px] h-[48px] rounded-full" aria-hidden="true"></div>
         <!-- Glow left -->
         <img src="../assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt=""
           class="absolute -left-1/4 top-0 w-2/3 h-full opacity-60" />
@@ -309,34 +309,35 @@
           class="absolute inset-0 w-full h-full object-cover opacity-40" />
 
         <!-- Chart images (visible on large screens) -->
-        <img src="../assets/Group.png" alt="" class="home-hero__side-card hidden lg:block absolute left-8 top-[284px] w-[198px] h-[121px] object-contain opacity-70" />
-        <img src="../assets/asset2.png" alt="" class="home-hero__side-card hidden lg:block absolute left-4 top-[420px] w-[263px] h-[185px] object-contain opacity-55" />
-        <img src="../assets/asset3.png" alt="" class="home-hero__side-card hidden lg:block absolute right-8 top-[284px] w-[218px] h-[136px] object-contain opacity-55" />
-        <img src="../assets/asset2.png" alt="" class="home-hero__side-card hidden lg:block absolute right-4 top-[420px] w-[263px] h-[185px] object-contain opacity-50" />
-        <img src="../assets/marketing_innov.png" alt="" class="home-hero__decor-card hidden lg:block absolute left-[15%] bottom-[118px] w-[238px] h-[132px] object-contain" />
-        <img src="../assets/bar_insightproject.png" alt="" class="home-hero__decor-card hidden lg:block absolute right-[18%] bottom-[80px] w-[455px] h-[168px] object-contain" />
+        <img src="../assets/Group.png" alt="" class="home-hero__side-card hidden lg:block absolute left-5 top-[146px] w-[180px] h-auto object-contain opacity-70" />
+        <img src="../assets/asset2.png" alt="" class="home-hero__side-card hidden lg:block absolute left-1 top-[272px] w-[250px] h-auto object-contain opacity-55" />
+        <img src="../assets/asset3.png" alt="" class="home-hero__side-card hidden lg:block absolute right-5 top-[142px] w-[206px] h-auto object-contain opacity-55" />
+        <img src="../assets/asset2.png" alt="" class="home-hero__side-card hidden lg:block absolute right-2 top-[270px] w-[250px] h-auto object-contain opacity-50" />
+        <img src="../assets/marketing_innov.png" alt="" class="home-hero__decor-card hidden lg:block absolute left-[15%] top-[492px] w-[250px] h-auto object-contain" />
+        <img src="../assets/bar_insightproject.png" alt="" class="home-hero__decor-card hidden lg:block absolute left-1/2 top-[532px] w-[500px] h-auto object-contain" />
       </div>
 
       <!-- NAV (rendered by js/navbar.js) -->
       <div id="navbar-placeholder" class="relative z-50 sticky top-6 mx-auto mt-5 lg:mt-8 w-[calc(100%-32px)] lg:w-[calc(100%-48px)] max-w-[1311px]"></div>
 
       <!-- Hero copy -->
-      <div class="home-hero__copy relative z-10 flex flex-col items-center text-center px-6 mt-12 lg:mt-0 lg:absolute lg:top-[224px] lg:left-1/2 lg:-translate-x-1/2 lg:w-[825px] gap-10">
-        <h1 class="text-4xl lg:text-[64px] font-bold leading-tight text-[#f6f6f6] capitalize">
+      <div class="home-hero__copy relative z-10 flex flex-col items-center text-center px-6 mt-12 lg:mt-0 lg:absolute lg:top-[274px] lg:left-1/2 lg:-translate-x-1/2 lg:w-[760px] gap-8">
+        <h1 class="text-4xl lg:text-[48px] font-bold leading-[1.1] text-[#f6f6f6] capitalize">
           The All-in-One Platform to Understand Insights
         </h1>
-        <a class="flex items-center gap-4 w-[240px] lg:w-[278px] h-[56px] lg:h-[63px] justify-center rounded-full no-underline cursor-pointer"
+        <a class="flex items-center gap-3 w-[220px] lg:w-[240px] h-[52px] lg:h-[54px] justify-center rounded-full no-underline cursor-pointer"
           href="#favorite"
           style="border: 1px solid transparent; background: linear-gradient(rgba(51,5,5,1), rgba(51,5,5,1)) padding-box, linear-gradient(90deg, rgba(149,29,29,1), rgba(47,9,9,1)) border-box;">
-          <span class="font-inter text-[20px] lg:text-[24px] text-[#fc8484]">✦</span>
-          <span class="font-inter text-[18px] lg:text-[22px] text-[#ffd5d5]">Start to Explore</span>
+          <span class="font-inter text-[18px] lg:text-[20px] text-[#fc8484]">✦</span>
+          <span class="font-inter text-[16px] lg:text-[18px] text-[#ffd5d5]">Start to Explore</span>
         </a>
 
-        <div class="home-hero__labels hidden lg:grid pointer-events-none font-inter" aria-hidden="true">
-          <p><img class="home-hero__label-img" src="../assets/knowledge-lib.png" alt="" /></p>
-          <p><img class="home-hero__label-img" src="../assets/data-vis.png" alt="" /></p>
-          <p><img class="home-hero__label-img" src="../assets/insight-data.png" alt="" /></p>
-        </div>
+      </div>
+
+      <div class="home-hero__labels hidden lg:grid pointer-events-none font-inter" aria-hidden="true">
+        <p><img class="home-hero__label-img" src="../assets/knowledge-lib.png" alt="" /></p>
+        <p><img class="home-hero__label-img" src="../assets/data-vis.png" alt="" /></p>
+        <p><img class="home-hero__label-img" src="../assets/insight-data.png" alt="" /></p>
       </div>
 
       <div class="home-hero__mobile-labels lg:hidden" aria-hidden="true">
