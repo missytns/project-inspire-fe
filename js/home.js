@@ -279,38 +279,6 @@
     pinButton?.addEventListener("click", () => toggleFavorite(report));
   }
 
-  function staticReportFromCard(article, favorite = false) {
-    const title = article.querySelector(".project-card__name, h3")?.textContent.trim() || "Dashboard";
-    const description = article.querySelector(".project-card__desc, p")?.textContent.trim() || "";
-    const thumbnail = article.querySelector("img.absolute")?.getAttribute("src") || DEFAULT_THUMBNAIL;
-    return {
-      id: title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-      title, description, thumbnail,
-      journey: article.dataset.journey || inferJourney(title),
-      workspace: "Marvel", environment: "Operation", frequency: "Monthly",
-      objective: "", dataUsage: "", businessQuestion: "",
-      url: safeUrl(article.dataset.reportUrl || ""), favorite,
-      active: !article.classList.contains("project-card--disabled"),
-    };
-  }
-
-  function loadStaticReports() {
-    const favoriteCards = Array.from(document.querySelectorAll("#favoriteReports .project-card"));
-    const favoriteTitles = new Set(
-      favoriteCards.map((a) => a.querySelector("h3")?.textContent.trim()).filter(Boolean)
-    );
-    const allCards = Array.from(document.querySelectorAll("#allReports .project-card"));
-    reports = allCards.map((a) => {
-      const title = a.querySelector("h3")?.textContent.trim() || "";
-      return staticReportFromCard(a, favoriteTitles.has(title));
-    });
-    favoriteCards.forEach((a) => {
-      const title = a.querySelector("h3")?.textContent.trim() || "";
-      if (!reports.some((r) => r.title === title)) reports.push(staticReportFromCard(a, true));
-    });
-    renderReports();
-  }
-
   // ─── Favorite / pin ───────────────────────────────────────────────────────
 
   async function toggleFavorite(report) {
@@ -374,14 +342,32 @@
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
+  function renderMessage(container, message) {
+    if (!container) return;
+    container.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "text-white/40 text-sm py-8";
+    if (container.id === "allReports") p.classList.add("col-span-full");
+    p.textContent = message;
+    container.appendChild(p);
+  }
+
+  function renderLoading() {
+    renderMessage(favoriteContainer, "Loading...");
+    renderMessage(allContainer, "Loading...");
+  }
+
+  function renderLoadError(message = "Unable to load dashboards from Strapi.") {
+    reports = [];
+    renderMessage(favoriteContainer, message);
+    renderMessage(allContainer, message);
+  }
+
   function render(container, items, emptyMessage = "No dashboards found.") {
     if (!container) return;
     container.innerHTML = "";
     if (items.length === 0) {
-      const p = document.createElement("p");
-      p.className = "text-white/40 text-sm py-8";
-      p.textContent = emptyMessage;
-      container.appendChild(p);
+      renderMessage(container, emptyMessage);
       return;
     }
     const fullWidth = container.id === "allReports";
@@ -521,10 +507,13 @@
       if (!sessionValid) return;
       const [res] = await Promise.all([
         fetch(REPORTS_ENDPOINT, { headers: authHeaders() }),
-        loadPinnedDashboardIds(),
+        loadPinnedDashboardIds().catch((err) => {
+          console.warn("Pinned dashboards could not be loaded.", err);
+        }),
       ]);
       if (res.status === 401 || res.status === 403) {
         console.warn("Power BI dashboards could not be loaded.");
+        renderLoadError("Dashboard data is not available for this account.");
         return;
       }
       if (!res.ok) throw new Error(`Strapi returned ${res.status}`);
@@ -533,14 +522,15 @@
       reports = items.map(normalizeReport);
       renderReports();
     } catch (err) {
-      console.warn("Power BI reports could not be loaded. Static cards shown.", err);
+      console.warn("Power BI reports could not be loaded.", err);
+      renderLoadError();
     }
   }
 
   // ─── Init ─────────────────────────────────────────────────────────────────
 
   bindEvents();
-  loadStaticReports();
   renderInsightSubfilters();
+  renderLoading();
   loadReports();
 })();
