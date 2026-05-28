@@ -345,7 +345,7 @@
 
     render(
       allContainer,
-      [...visible].sort((a, b) => Number(a.favorite) - Number(b.favorite)),
+      visible,
       hasSearch ? "No dashboards match your search." : "No dashboards found."
     );
   }
@@ -354,7 +354,8 @@
 
   function openReport(report) {
     const id = report.documentId || report.backendId || report.id;
-    window.location.href = `detail.html?id=${encodeURIComponent(id)}`;
+    const returnTo = `${window.location.pathname.split("/").pop() || "archive.html"}${window.location.search}`;
+    window.location.href = `detail.html?id=${encodeURIComponent(id)}&returnTo=${encodeURIComponent(returnTo)}`;
   }
 
   // ─── Event binding ────────────────────────────────────────────────────────

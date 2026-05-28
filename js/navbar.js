@@ -259,7 +259,7 @@
       <div class="landing-nav__search nav-search hidden lg:flex items-center h-[48px] ml-auto rounded-[24px] transition-all duration-200 min-w-[220px] max-w-[330px] xl:max-w-[360px] flex-[1_1_260px]">
         <input
           class="landing-nav__search-input flex-1 bg-transparent border-none pl-5 pr-1 text-[13px] font-semibold text-white/75 placeholder-white/55 outline-none w-full min-w-0"
-          type="search" placeholder="Search insight..." aria-label="Search insight"
+          type="search" placeholder="Search title dashboard" aria-label="Search title dashboard"
         />
         <button class="landing-nav__search-btn shrink-0 mr-2 w-8 h-8 flex items-center justify-center rounded-full border-0 cursor-pointer" type="button" aria-label="Search">
           <img src="../assets/dashboard/24dc6b20d586e5214f68a6266ee8bcfe10b6307a.svg" class="w-5 h-5" alt="" />
@@ -291,7 +291,7 @@
     <div class="landing-nav-mobile-search lg:hidden flex items-center mt-2 h-[46px] rounded-full px-1">
       <input
         class="landing-nav__search-input-mobile flex-1 bg-transparent border-none pl-4 pr-1 text-[13px] font-semibold text-white/75 placeholder-white/55 outline-none min-w-0"
-        type="search" placeholder="Search insight..." aria-label="Search insight"
+        type="search" placeholder="Search title dashboard" aria-label="Search title dashboard"
       />
       <button class="landing-nav__search-btn-mobile shrink-0 mr-1.5 w-8 h-8 flex items-center justify-center rounded-full border-0 cursor-pointer" type="button" aria-label="Search">
         <img src="../assets/dashboard/24dc6b20d586e5214f68a6266ee8bcfe10b6307a.svg" class="w-5 h-5" alt="" />

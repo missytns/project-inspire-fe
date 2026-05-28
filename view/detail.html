@@ -39,11 +39,33 @@
         border: 1px solid rgba(230, 56, 60, 0.5);
         box-shadow: inset -1px 1px 11px rgba(230, 56, 60, 0.5), 0 14px 26px rgba(0,0,0,0.14);
       }
+      .detail-card {
+        min-height: 300px;
+      }
+      .detail-preview__canvas {
+        min-height: 260px;
+      }
       .detail-copy {
         overflow-wrap: anywhere;
         word-break: break-word;
         hyphens: auto;
         white-space: pre-line;
+      }
+      .detail-copy-scroll {
+        max-height: 180px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+      .detail-copy-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .detail-copy-scroll::-webkit-scrollbar-thumb {
+        background: rgba(230,56,60,0.55);
+        border-radius: 999px;
+      }
+      .detail-copy-scroll::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.08);
+        border-radius: 999px;
       }
       .detail-back-button {
         background: rgba(68,68,68,0.72);
@@ -53,6 +75,14 @@
       .detail-back-button:hover {
         filter: brightness(1.08);
       }
+      @media (min-width: 1024px) {
+        .detail-card {
+          min-height: 318px;
+        }
+        .detail-preview__canvas {
+          min-height: 0;
+        }
+      }
     </style>
   </head>
   <body class="bg-[#10081d] font-sans text-white antialiased min-h-screen">
@@ -60,10 +90,7 @@
 
     <!-- Background layers -->
     <div class="fixed inset-0 pointer-events-none select-none z-0" aria-hidden="true">
-      <img src="../assets/bg_bosku.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
-      <img src="../assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt="" class="absolute -left-1/4 top-0 w-2/3 h-full opacity-60" />
-      <img src="../assets/dashboard/aa49777440f9f308a7c9e4afa1d518074ffb66fe.svg" alt="" class="absolute -right-1/4 top-0 w-2/3 h-full opacity-60" />
-      <img src="../assets/dashboard/88f353fec0c6e6024ef31bd657731764177261c0.svg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+      <img src="../assets/background-bro.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
     </div>
 
     <!-- ===================== NAV ===================== -->
@@ -72,7 +99,7 @@
     </div>
 
     <!-- ===================== CONTENT ===================== -->
-    <main class="relative z-10 max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16">
+    <main class="relative z-10 w-full max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16">
 
       <!-- Loading state -->
       <div id="detailLoading" class="flex items-center justify-center py-24">
@@ -86,10 +113,10 @@
       </div>
 
       <!-- Detail content -->
-      <div id="detailContent" class="flex flex-col gap-7" style="display:none;">
+      <div id="detailContent" class="w-full flex flex-col gap-7" style="display:none;">
 
         <!-- Header row -->
-        <div class="flex flex-col gap-4">
+        <div class="w-full flex flex-col gap-4">
           <a href="home.html" class="detail-back-button inline-flex items-center justify-center gap-2 w-fit min-w-[170px] h-9 px-4 rounded-full text-white text-base font-bold no-underline transition">
             <span class="text-[22px] leading-none" aria-hidden="true">←</span>
             <span>Back to Home</span>
@@ -105,39 +132,38 @@
         </div>
 
         <!-- Main grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
 
           <!-- Embed / thumbnail panel -->
-          <article class="detail-preview rounded-lg overflow-hidden p-3">
-            <div class="relative block aspect-[16/8] rounded-lg overflow-hidden bg-black/20 cursor-pointer" id="detailPreviewLink" role="link" tabindex="0" aria-label="Open Power BI dashboard">
-              <iframe class="absolute inset-0 w-full h-full" id="detailFrame" title="Power BI dashboard" allowfullscreen></iframe>
-              <img class="absolute inset-0 w-full h-full object-cover" id="detailThumbnail" alt="" />
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50" id="detailEmpty">
+          <article class="detail-preview detail-card rounded-lg overflow-hidden p-3">
+            <div class="detail-preview__canvas relative block h-full rounded-lg overflow-hidden bg-black/20" id="detailPreviewLink">
+              <iframe class="absolute inset-0 w-full h-full pointer-events-auto" id="detailFrame" title="Power BI dashboard" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+              <img class="absolute inset-0 w-full h-full object-cover pointer-events-none" id="detailThumbnail" alt="" />
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50 pointer-events-none" id="detailEmpty">
                 <strong class="text-white/70">Dashboard preview</strong>
                 <span class="text-sm">Power BI URL belum tersedia untuk dashboard ini.</span>
               </div>
-              <div class="absolute right-3 bottom-3 flex items-center gap-2 z-20">
-                <button class="w-8 h-8 bg-white/80 hover:bg-white rounded-full text-[#6f6f6f] font-bold transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
-                <button class="w-8 h-8 bg-white/80 hover:bg-white rounded-full text-[#6f6f6f] font-bold transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
-                <span class="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-[#6f6f6f] font-bold">↗</span>
+              <div class="absolute right-3 top-3 flex items-center gap-2 z-20">
+                <button class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
+                <button class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
+                <a class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] flex items-center justify-center text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors no-underline" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">↗</a>
               </div>
             </div>
-            <a class="sr-only" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">Open Power BI</a>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Objective</h2>
-            <p class="detail-copy text-[16px] text-white leading-relaxed text-justify" id="detailObjective"></p>
+            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailObjective"></p>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Data Usage</h2>
-            <p class="detail-copy text-[16px] text-white leading-relaxed text-justify" id="detailUsage"></p>
+            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailUsage"></p>
           </article>
 
-          <article class="detail-panel rounded-lg p-8 lg:p-10 min-h-[260px] flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Business Question</h2>
-            <p class="detail-copy text-[16px] text-white leading-relaxed text-justify" id="detailQuestion"></p>
+            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailQuestion"></p>
           </article>
 
         </div>

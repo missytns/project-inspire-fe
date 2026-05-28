@@ -417,7 +417,7 @@
 
     render(
       allContainer,
-      [...insightReports].sort((a, b) => Number(a.favorite) - Number(b.favorite)),
+      insightReports,
       hasSearch ? "No dashboards match your search." : "No dashboards found."
     );
   }
@@ -426,7 +426,8 @@
 
   function openReport(report) {
     const id = report.documentId || report.backendId || report.id;
-    window.location.href = `detail.html?id=${encodeURIComponent(id)}`;
+    const returnTo = `${window.location.pathname.split("/").pop() || "home.html"}${window.location.search}`;
+    window.location.href = `detail.html?id=${encodeURIComponent(id)}&returnTo=${encodeURIComponent(returnTo)}`;
   }
 
   // ─── Event binding ────────────────────────────────────────────────────────
@@ -440,7 +441,11 @@
       const target = document.getElementById("favorite");
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const navbar = document.getElementById("navbar-placeholder");
+      const navbarBottom = navbar ? navbar.getBoundingClientRect().bottom : 0;
+      const offset = Math.max(navbarBottom + 24, 96);
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: Math.max(targetTop, 0), behavior: "smooth" });
     });
 
     searchInput?.addEventListener("focus", openNavSearch);

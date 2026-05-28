@@ -32,6 +32,9 @@
       .nav-searching .nav-search { flex: 1; margin-left: 0; }
       .cards-scroll { scrollbar-width: none; }
       .cards-scroll::-webkit-scrollbar { display: none; }
+      #favorite {
+        scroll-margin-top: 124px;
+      }
       .line-clamp-3 {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -88,10 +91,6 @@
         padding-top: 32px;
         min-height: calc(100vh - 136px);
       }
-      .home-hero__bg-label-mask {
-        background: rgba(16, 8, 29, 0.86);
-        filter: blur(8px);
-      }
       .home-hero__mobile-visual,
       .home-hero__mobile-labels,
       .home-hero__mobile-panels {
@@ -131,7 +130,6 @@
         .home-hero__decor-card {
           opacity: 1;
           z-index: 5;
-          filter: drop-shadow(0 18px 32px rgba(0,0,0,0.32));
         }
         .home-hero__side-card {
           z-index: 2;
@@ -293,11 +291,8 @@
       <div class="home-hero__decor absolute inset-0 pointer-events-none" aria-hidden="true">
         <!-- Grid background -->
         <div class="absolute inset-0">
-          <img src="../assets/bg_bosku.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+          <img src="../assets/background-bro.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
         </div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[30%] top-[54%] w-[220px] h-[48px] rounded-full" aria-hidden="true"></div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[44%] top-[66%] w-[220px] h-[54px] rounded-full" aria-hidden="true"></div>
-        <div class="home-hero__bg-label-mask hidden lg:block absolute left-[60%] top-[58%] w-[260px] h-[48px] rounded-full" aria-hidden="true"></div>
         <!-- Glow left -->
         <img src="../assets/dashboard/36c6878d1bfe7431c8ad94cd12b681989ec85bfa.svg" alt=""
           class="absolute -left-1/4 top-0 w-2/3 h-full opacity-60" />

@@ -11,6 +11,7 @@
 
   const params = new URLSearchParams(window.location.search);
   const reportId = params.get("id");
+  const returnTo = getSafeReturnTo(params.get("returnTo"));
 
   const loadingEl = document.getElementById("detailLoading");
   const errorEl = document.getElementById("detailError");
@@ -30,8 +31,58 @@
   const previewLinkEl = document.getElementById("detailPreviewLink");
 
   let zoom = 1;
-  let currentPowerBiUrl = "";
 
+  function getSafeReturnTo(value) {
+    if (!value) return "home.html";
+    try {
+      const decoded = decodeURIComponent(value);
+      if (/^(home|archive)\.html(?:\?.*)?$/.test(decoded)) return decoded;
+    } catch (_e) {
+      if (/^(home|archive)\.html(?:\?.*)?$/.test(value)) return value;
+    }
+    return "home.html";
+  }
+
+  function internalReferrerPath() {
+    if (!document.referrer) return "";
+    try {
+      const referrer = new URL(document.referrer);
+      if (referrer.origin !== window.location.origin) return "";
+      const page = referrer.pathname.split("/").pop();
+      if (!/^(home|archive|detail)\.html$/.test(page)) return "";
+      return `${page}${referrer.search}`;
+    } catch (_e) {
+      return "";
+    }
+  }
+
+  function backFallback() {
+    const referrerPath = internalReferrerPath();
+    if (referrerPath && !referrerPath.startsWith("detail.html")) return referrerPath;
+    return returnTo;
+  }
+
+  function setupBackLinks() {
+    const fallback = backFallback();
+    const isArchive = fallback.startsWith("archive.html");
+    const label = isArchive ? "Back to Archive" : "Back to Home";
+    document.querySelectorAll("a, button").forEach((link) => {
+      if (!/\bback\b/i.test(link.textContent || "")) return;
+      if (link.tagName === "A") link.href = fallback;
+      if (link.tagName === "BUTTON" && !link.getAttribute("type")) link.setAttribute("type", "button");
+      const text = link.querySelector("span:last-child");
+      if (text) text.textContent = label;
+      else link.textContent = `← ${label}`;
+      link.addEventListener("click", function (event) {
+        const referrerPath = internalReferrerPath();
+        if (!referrerPath || referrerPath.startsWith("detail.html")) return;
+        event.preventDefault();
+        window.history.back();
+      });
+    });
+  }
+
+  setupBackLinks();
 
   function readAuth() {
     try { return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || "null"); }
@@ -99,7 +150,6 @@
   }
 
   function renderReport(report) {
-    currentPowerBiUrl = report.url || "";
     if (titleEl) titleEl.textContent = report.title;
     if (frequencyEl) frequencyEl.textContent = report.frequency ? `${report.frequency} Refresh` : "Weekly Refresh";
     if (objectiveEl) objectiveEl.textContent = report.objective || "—";
@@ -127,17 +177,11 @@
     }
     if (previewLinkEl) {
       previewLinkEl.setAttribute("aria-disabled", report.url ? "false" : "true");
-      previewLinkEl.tabIndex = report.url ? 0 : -1;
     }
 
     setZoom(1);
     if (loadingEl) loadingEl.style.display = "none";
     if (contentEl) contentEl.style.display = "flex";
-  }
-
-  function openPowerBiLink() {
-    if (!currentPowerBiUrl) return;
-    window.open(currentPowerBiUrl, "_blank", "noopener");
   }
 
   zoomInEl?.addEventListener("click", (event) => {
@@ -149,15 +193,6 @@
     event.preventDefault();
     event.stopPropagation();
     setZoom(zoom - 0.1);
-  });
-  previewLinkEl?.addEventListener("click", (event) => {
-    if (event.target instanceof Element && event.target.closest("button, iframe")) return;
-    openPowerBiLink();
-  });
-  previewLinkEl?.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    event.preventDefault();
-    openPowerBiLink();
   });
 
   document.querySelectorAll(".nav-tab[data-journey]").forEach((tab) => {

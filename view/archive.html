@@ -48,13 +48,18 @@
   <body class="bg-[#140808] font-sans text-white antialiased min-h-screen">
     <div class="overflow-x-hidden min-h-screen flex flex-col">
 
+    <!-- Background -->
+    <div class="fixed inset-0 pointer-events-none select-none z-0" aria-hidden="true">
+      <img src="../assets/background-bro.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    </div>
+
     <!-- ===================== NAV (rendered by js/navbar.js) ===================== -->
     <div class="sticky top-6 z-50 px-6 pt-2">
       <div id="navbar-placeholder" class="w-full max-w-[1311px] mx-auto"></div>
     </div>
 
     <!-- ===================== CONTENT ===================== -->
-    <main class="relative w-full max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16 flex flex-col gap-8">
+    <main class="relative z-10 w-full max-w-[1311px] mx-auto px-6 lg:px-0 py-12 pb-16 flex flex-col gap-8">
 
       <!-- Section title (JS updates this) -->
       <section class="flex flex-col gap-5 section-block--insights">
