@@ -49,9 +49,27 @@
         overflow-wrap: anywhere;
         word-break: break-word;
         hyphens: auto;
-        white-space: pre-line;
+        white-space: normal;
+      }
+      .detail-copy > * + * {
+        margin-top: 0.75rem;
+      }
+      .detail-copy h3 {
+        font-weight: 700;
+      }
+      .detail-copy ol,
+      .detail-copy ul {
+        padding-left: 1.4rem;
+      }
+      .detail-copy ol {
+        list-style: decimal;
+      }
+      .detail-copy ul {
+        list-style: disc;
       }
       .detail-copy-scroll {
+        flex: 1;
+        min-height: 0;
         max-height: 180px;
         overflow-y: auto;
         padding-right: 8px;
@@ -151,19 +169,19 @@
             </div>
           </article>
 
-          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Objective</h2>
-            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailObjective"></p>
+            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailObjective"></div>
           </article>
 
-          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Data Usage</h2>
-            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailUsage"></p>
+            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailUsage"></div>
           </article>
 
-          <article class="detail-panel detail-card rounded-lg p-8 lg:p-10 flex flex-col justify-center overflow-hidden">
+          <article class="detail-panel detail-card rounded-lg px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
             <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Business Question</h2>
-            <p class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailQuestion"></p>
+            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailQuestion"></div>
           </article>
 
         </div>

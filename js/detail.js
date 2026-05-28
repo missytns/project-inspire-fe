@@ -121,6 +121,149 @@
     return fallback;
   }
 
+  function richTextToText(value, fallback = "") {
+    const text = blockText(value).replace(/\n{3,}/g, "\n\n").trim();
+    return text || fallback;
+  }
+
+  function blockText(value, index = 0) {
+    if (value === undefined || value === null) return "";
+    if (typeof value === "string" || typeof value === "number") return String(value);
+    if (Array.isArray(value)) {
+      return value
+        .map((item, itemIndex) => blockText(item, itemIndex))
+        .filter(Boolean)
+        .join("\n");
+    }
+
+    if (value && typeof value === "object") {
+      if (value.type === "list") {
+        const ordered = value.format === "ordered";
+        return (value.children || [])
+          .map((child, childIndex) => {
+            const itemText = blockText(child, childIndex).replace(/\s+/g, " ").trim();
+            if (!itemText) return "";
+            return ordered ? `${childIndex + 1}. ${itemText}` : `- ${itemText}`;
+          })
+          .filter(Boolean)
+          .join("\n");
+      }
+      if (value.type === "list-item") {
+        return inlineText(value.children || value.content || "").trim();
+      }
+      if (value.type === "paragraph" || value.type === "heading" || value.type === "quote") {
+        return inlineText(value.children || value.content || "").trim();
+      }
+      if (typeof value.text === "string") return value.text;
+      if (typeof value.content === "string") return value.content;
+      if (Array.isArray(value.children)) return blockText(value.children);
+    }
+
+    return "";
+  }
+
+  function inlineText(value) {
+    if (value === undefined || value === null) return "";
+    if (typeof value === "string" || typeof value === "number") return String(value);
+    if (Array.isArray(value)) return value.map(inlineText).join("");
+    if (value && typeof value === "object") {
+      if (typeof value.text === "string") return value.text;
+      if (typeof value.content === "string") return value.content;
+      if (Array.isArray(value.children)) return value.children.map(inlineText).join("");
+    }
+    return "";
+  }
+
+  function renderRichText(container, value, fallback = "—") {
+    if (!container) return;
+    container.innerHTML = "";
+    const nodes = richTextNodes(value);
+    if (nodes.length === 0) {
+      container.textContent = fallback;
+      return;
+    }
+    nodes.forEach((node) => container.appendChild(node));
+  }
+
+  function richTextNodes(value) {
+    if (value === undefined || value === null || value === "") return [];
+    if (typeof value === "string" || typeof value === "number") {
+      const lines = String(value).split(/\n+/).map((line) => line.trim()).filter(Boolean);
+      return lines.map((line) => {
+        const p = document.createElement("p");
+        p.textContent = line;
+        return p;
+      });
+    }
+    if (Array.isArray(value)) return value.flatMap(richTextNodes);
+    if (typeof value !== "object") return [];
+
+    if (value.type === "list") {
+      const list = document.createElement(value.format === "ordered" ? "ol" : "ul");
+      (value.children || []).forEach((child) => {
+        const item = document.createElement("li");
+        appendInline(item, child.children || child.content || child);
+        list.appendChild(item);
+      });
+      return list.children.length ? [list] : [];
+    }
+
+    if (value.type === "heading") {
+      const heading = document.createElement("h3");
+      appendInline(heading, value.children || value.content || "");
+      return heading.textContent.trim() ? [heading] : [];
+    }
+
+    if (value.type === "paragraph" || value.type === "quote") {
+      const p = document.createElement("p");
+      appendInline(p, value.children || value.content || "");
+      return p.textContent.trim() ? [p] : [];
+    }
+
+    if (typeof value.text === "string" || typeof value.content === "string") {
+      return richTextNodes(value.text || value.content);
+    }
+    if (Array.isArray(value.children)) return richTextNodes(value.children);
+
+    return [];
+  }
+
+  function appendInline(parent, value) {
+    if (value === undefined || value === null) return;
+    if (typeof value === "string" || typeof value === "number") {
+      parent.appendChild(document.createTextNode(String(value)));
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((item) => appendInline(parent, item));
+      return;
+    }
+    if (typeof value !== "object") return;
+
+    if (typeof value.text === "string") {
+      let node = document.createTextNode(value.text);
+      if (value.bold) {
+        const strong = document.createElement("strong");
+        strong.appendChild(node);
+        node = strong;
+      }
+      if (value.italic) {
+        const em = document.createElement("em");
+        em.appendChild(node);
+        node = em;
+      }
+      if (value.underline) {
+        const underline = document.createElement("u");
+        underline.appendChild(node);
+        node = underline;
+      }
+      parent.appendChild(node);
+      return;
+    }
+
+    appendInline(parent, value.children || value.content || "");
+  }
+
   function mediaUrl(value) {
     if (!value) return DEFAULT_THUMBNAIL;
     if (typeof value === "string") return value;
@@ -139,22 +282,29 @@
 
   function normalizeReport(record) {
     const title = field(record, ["title", "name", "reportTitle"], "Untitled dashboard");
-    const objective = field(record, ["objective", "description", "desc"], "");
+    const objectiveRaw = field(record, ["objective", "Objective"], "");
+    const dataUsageRaw = field(record, ["dataUsage", "data_usage", "DataUsage"], "");
+    const businessQuestionRaw = field(record, ["businessQuestion", "business_question", "BusinessQuestion"], "");
+    const objective = richTextToText(objectiveRaw, "");
     const journey = field(record, ["journey", "category", "type"], "General");
     const frequency = field(record, ["frequency"], "");
-    const dataUsage = field(record, ["dataUsage", "data_usage"], "");
-    const businessQuestion = field(record, ["businessQuestion", "business_question"], "");
+    const dataUsage = richTextToText(dataUsageRaw, "");
+    const businessQuestion = richTextToText(businessQuestionRaw, "");
     const url = safeUrl(field(record, ["powerBiUrl", "powerBIUrl", "embedUrl", "reportUrl", "url", "link"]));
     const thumbnail = mediaUrl(field(record, ["thumbnail", "image", "cover"]));
-    return { title, objective, journey, frequency, dataUsage, businessQuestion, url, thumbnail };
+    return {
+      title, objective, objectiveRaw, journey, frequency,
+      dataUsage, dataUsageRaw, businessQuestion, businessQuestionRaw,
+      url, thumbnail,
+    };
   }
 
   function renderReport(report) {
     if (titleEl) titleEl.textContent = report.title;
     if (frequencyEl) frequencyEl.textContent = report.frequency ? `${report.frequency} Refresh` : "Weekly Refresh";
-    if (objectiveEl) objectiveEl.textContent = report.objective || "—";
-    if (usageEl) usageEl.textContent = report.dataUsage || "—";
-    if (questionEl) questionEl.textContent = report.businessQuestion || "—";
+    renderRichText(objectiveEl, report.objectiveRaw || report.objective);
+    renderRichText(usageEl, report.dataUsageRaw || report.dataUsage);
+    renderRichText(questionEl, report.businessQuestionRaw || report.businessQuestion);
 
     document.querySelectorAll(".dashboard-detail__tab").forEach((tab) => {
       const active = tab.textContent.trim().toLowerCase() === String(report.journey || "").toLowerCase();

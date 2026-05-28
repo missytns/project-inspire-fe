@@ -11,7 +11,7 @@
   const LINK_PIN = "../assets/dashboard/ca8a615c7774f061cda8fb2ae4262d5dbfd39b15.svg";
   const CARD_TOP_GLOW = "url('../assets/dashboard/card-top-glow.svg') center / 100% 100% no-repeat";
   const FAVORITE_LIMIT = 4;
-  const CARD_EXCERPT_LENGTH = 112;
+  const CARD_EXCERPT_LENGTH = 130;
 
   const auth = readAuth();
   if (!auth?.jwt) {
@@ -104,6 +104,28 @@
     return fallback;
   }
 
+  function textField(record, names, fallback = "") {
+    const value = field(record, names, fallback);
+    if (Array.isArray(value)) {
+      return value
+        .map((item) => textField(item, ["text", "children", "content"], ""))
+        .filter(Boolean)
+        .join(" ");
+    }
+    if (value && typeof value === "object") {
+      if (typeof value.text === "string") return value.text;
+      if (Array.isArray(value.children)) {
+        return value.children
+          .map((child) => textField(child, ["text", "children", "content"], ""))
+          .filter(Boolean)
+          .join(" ");
+      }
+      if (typeof value.content === "string") return value.content;
+      return fallback;
+    }
+    return String(value || "").trim();
+  }
+
   function mediaUrl(value) {
     if (!value) return DEFAULT_THUMBNAIL;
     if (typeof value === "string") return value;
@@ -120,6 +142,16 @@
       const u = new URL(value);
       return ["http:", "https:"].includes(u.protocol) ? u.toString() : "";
     } catch (_e) { return ""; }
+  }
+
+  function timestamp(value) {
+    if (!value) return 0;
+    const time = new Date(value).getTime();
+    return Number.isNaN(time) ? 0 : time;
+  }
+
+  function newestFirst(a, b) {
+    return (b.sortTime || 0) - (a.sortTime || 0);
   }
 
   function toBoolean(value, fallback) {
@@ -147,7 +179,7 @@
 
   function normalizeReport(record) {
     const title = field(record, ["title", "name", "reportTitle"], "Untitled dashboard");
-    const objective = field(record, ["objective", "description", "desc"], "");
+    const objective = textField(record, ["objective", "Objective", "description", "desc"], "");
     const journey = field(record, ["journey", "category", "type"], "General");
     const workspace = field(record, ["workspace"], "");
     const environment = field(record, ["environment"], "");
@@ -158,6 +190,9 @@
     const thumbnail = mediaUrl(field(record, ["thumbnail", "image", "cover"]));
     const favorite = toBoolean(field(record, ["isPinned", "isFavorite", "favorite", "pinned"], false), false);
     const active = toBoolean(field(record, ["isActive", "active"], true), true);
+    const createdAt = field(record, ["createdAt", "created_at"], "");
+    const updatedAt = field(record, ["updatedAt", "updated_at"], "");
+    const publishedAt = field(record, ["publishedAt", "published_at"], "");
     const documentId = field(record, ["documentId"], "");
     const rawId = record.id || field(record, ["id"], documentId || title);
     const id = normalizeId(documentId || rawId || title);
@@ -165,6 +200,8 @@
       id, backendId: normalizeId(rawId), documentId: normalizeId(documentId),
       title, description: objective, journey, workspace, environment, frequency,
       objective, dataUsage, businessQuestion, url, thumbnail,
+      createdAt, updatedAt, publishedAt,
+      sortTime: timestamp(createdAt || publishedAt || updatedAt),
       favorite: favorite || pinnedDashboardIds.has(id) || pinnedDashboardIds.has(normalizeId(rawId)),
       active,
     };
@@ -222,7 +259,7 @@
     const desc = document.createElement("p");
     desc.className = "project-card__desc w-full max-w-[220px] mx-auto text-[13px] font-medium leading-snug text-white line-clamp-3 min-h-[54px]";
     desc.style.cssText = "text-align:justify;text-align-last:left;text-justify:inter-word;";
-    desc.textContent = excerpt(report.description) || "No description available.";
+    desc.textContent = excerpt(report.objective || report.description) || "No description available.";
     body.appendChild(desc);
     article.appendChild(body);
 
@@ -429,7 +466,7 @@
       if (!res.ok) throw new Error(`Strapi returned ${res.status}`);
       const payload = await res.json();
       const items = Array.isArray(payload.data) ? payload.data : [];
-      reports = items.map(normalizeReport);
+      reports = items.map(normalizeReport).sort(newestFirst);
       renderReports();
     } catch (err) {
       console.warn("Power BI reports could not be loaded.", err);
