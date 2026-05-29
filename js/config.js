@@ -1,5 +1,5 @@
 (function () {
-  const CLOUD_STRAPI = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const CLOUD_STRAPI = "http://localhost:1337";
 
   window.API_BASE_URL = CLOUD_STRAPI;
 })();

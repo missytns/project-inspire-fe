@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = window.API_BASE_URL || "http://localhost:1337";
   const AUTH_STORAGE_KEY = "inspireAuth";
   const LOGIN_SESSION_KEY = "inspireLoginPassed";
   const LOGIN_TIMEOUT_MS = 15000;

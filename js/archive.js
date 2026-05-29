@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = window.API_BASE_URL || "http://localhost:1337";
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;

@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = "https://uplifting-cheese-44a7f505da.strapiapp.com";
+  const API_BASE_URL = window.API_BASE_URL || "http://localhost:1337";
   const AUTH_STORAGE_KEY = "inspireAuth";
   const DEFAULT_THUMBNAIL = "../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png";
 
