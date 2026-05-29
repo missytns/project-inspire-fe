@@ -322,7 +322,7 @@
     });
 
     if (frameEl) { frameEl.hidden = !report.url; frameEl.src = report.url || ""; }
-    if (thumbnailEl) { thumbnailEl.hidden = Boolean(report.url); thumbnailEl.src = report.thumbnail || DEFAULT_THUMBNAIL; }
+    if (thumbnailEl) { thumbnailEl.hidden = true; thumbnailEl.removeAttribute("src"); }
     if (emptyEl) emptyEl.hidden = Boolean(report.url);
     if (openTabEl) {
       openTabEl.href = report.url || "#";
