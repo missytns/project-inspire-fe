@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = window.API_BASE_URL || "http://localhost:1337";
+  const API_BASE_URL = window.API_BASE_URL || "https://optimistic-desk-3615e76660.strapiapp.com";
   const REPORTS_ENDPOINT = `${API_BASE_URL}/api/power-bi-dashboards?populate=*`;
   const PINS_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/me`;
   const TOGGLE_PIN_ENDPOINT = `${API_BASE_URL}/api/dashboard-pins/toggle`;
