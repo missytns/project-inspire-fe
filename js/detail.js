@@ -267,8 +267,9 @@
   function mediaUrl(value) {
     if (!value) return DEFAULT_THUMBNAIL;
     if (typeof value === "string") return value;
-    const mediaData = Array.isArray(value.data) ? value.data[0] : value.data;
-    const media = mediaData?.attributes || mediaData || value.attributes || value;
+    const firstMedia = Array.isArray(value) ? value[0] : value;
+    const mediaData = Array.isArray(firstMedia.data) ? firstMedia.data[0] : firstMedia.data;
+    const media = mediaData?.attributes || mediaData || firstMedia.attributes || firstMedia;
     const url = media.formats?.medium?.url || media.formats?.small?.url || media.url;
     if (!url) return DEFAULT_THUMBNAIL;
     return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
