@@ -139,8 +139,11 @@
 
   function safeUrl(value) {
     if (!value) return "";
+    const raw = String(value).trim();
+    const srcMatch = raw.match(/\bsrc=["']([^"']+)["']/i);
+    const candidate = (srcMatch ? srcMatch[1] : raw).replaceAll("&amp;", "&");
     try {
-      const u = new URL(value);
+      const u = new URL(candidate);
       return ["http:", "https:"].includes(u.protocol) ? u.toString() : "";
     } catch (_e) { return ""; }
   }
@@ -187,7 +190,7 @@
     const frequency = field(record, ["frequency"], "");
     const dataUsage = field(record, ["dataUsage", "data_usage"], "");
     const businessQuestion = field(record, ["businessQuestion", "business_question"], "");
-    const url = safeUrl(field(record, ["powerBiUrl", "powerBIUrl", "embedUrl", "reportUrl", "url", "link"]));
+    const url = safeUrl(field(record, ["powerBiUrl", "PowerBiUrl", "powerBIUrl", "powerBIURL", "powerbiUrl", "powerbiurl", "power_bi_url", "embedUrl", "embedURL", "reportUrl", "url", "link"]));
     const thumbnail = mediaUrl(field(record, ["thumbnail", "image", "cover"]));
     const favorite = toBoolean(field(record, ["isPinned", "isFavorite", "favorite", "pinned"], false), false);
     const active = toBoolean(field(record, ["isActive", "active"], true), true);
