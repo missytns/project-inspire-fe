@@ -106,9 +106,12 @@
   }
 
   function setZoom(value) {
-    zoom = Math.min(1.6, Math.max(0.75, value));
-    if (frameEl) frameEl.style.transform = `scale(${zoom})`;
-    if (thumbnailEl) thumbnailEl.style.transform = `scale(${zoom})`;
+    zoom = Math.min(1.25, Math.max(0.85, value));
+    const transform = `scale(${zoom})`;
+    if (frameEl) frameEl.style.transform = transform;
+    if (thumbnailEl && !thumbnailEl.hidden) thumbnailEl.style.transform = transform;
+    zoomInEl?.setAttribute("aria-disabled", zoom >= 1.25 ? "true" : "false");
+    zoomOutEl?.setAttribute("aria-disabled", zoom <= 0.85 ? "true" : "false");
   }
 
   function normalizeId(v) { return v === undefined || v === null ? "" : String(v); }
@@ -284,6 +287,19 @@
     catch (_e) { return ""; }
   }
 
+  function powerBiPreviewUrl(value) {
+    if (!value) return "";
+    try {
+      const url = new URL(value);
+      if (url.hostname.includes("powerbi.com")) {
+        url.searchParams.set("pageView", "fitToWidth");
+      }
+      return url.toString();
+    } catch (_e) {
+      return value;
+    }
+  }
+
   function normalizeReport(record) {
     const title = field(record, ["title", "name", "reportTitle"], "Untitled dashboard");
     const objectiveRaw = field(record, ["objective", "Objective"], "");
@@ -321,9 +337,18 @@
       }
     });
 
-    if (frameEl) { frameEl.hidden = !report.url; frameEl.src = report.url || ""; }
-    if (thumbnailEl) { thumbnailEl.hidden = true; thumbnailEl.removeAttribute("src"); }
-    if (emptyEl) emptyEl.hidden = Boolean(report.url);
+    if (frameEl) {
+      frameEl.hidden = !report.url;
+      if (report.url) frameEl.src = powerBiPreviewUrl(report.url);
+      else frameEl.removeAttribute("src");
+      frameEl.style.transform = "";
+    }
+    if (thumbnailEl) {
+      thumbnailEl.hidden = Boolean(report.url) || !report.thumbnail;
+      if (!report.url && report.thumbnail) thumbnailEl.src = report.thumbnail;
+      else thumbnailEl.removeAttribute("src");
+    }
+    if (emptyEl) emptyEl.hidden = Boolean(report.url || report.thumbnail);
     if (openTabEl) {
       openTabEl.href = report.url || "#";
       openTabEl.setAttribute("aria-disabled", report.url ? "false" : "true");

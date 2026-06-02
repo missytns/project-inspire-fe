@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -16,8 +16,8 @@
           extend: {
             colors: { accent: "#e6383c" },
             fontFamily: {
-              sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
-              inter: ["Inter", "sans-serif"],
+              sans: ["Poppins", "system-ui", "sans-serif"],
+              inter: ["Poppins", "system-ui", "sans-serif"],
             },
           },
         },
@@ -25,7 +25,24 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      #detailFrame, #detailThumbnail { transform-origin: top left; }
+      body {
+        -webkit-overflow-scrolling: touch;
+      }
+      #detailFrame, #detailThumbnail {
+        border: 0;
+        transform-origin: center center;
+        transition: transform 180ms ease;
+      }
+      #detailFrame {
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+      }
       .nav-searching .nav-hide { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
       .nav-searching .nav-search { flex: 1; margin-left: 0; }
       .detail-panel {
@@ -38,12 +55,53 @@
         background: rgba(68, 68, 68, 0.52);
         border: 1px solid rgba(230, 56, 60, 0.5);
         box-shadow: inset -1px 1px 11px rgba(230, 56, 60, 0.5), 0 14px 26px rgba(0,0,0,0.14);
+        box-sizing: border-box;
       }
       .detail-card {
-        min-height: 300px;
+        min-height: 280px;
       }
       .detail-preview__canvas {
-        min-height: 260px;
+        width: 100%;
+        height: 100%;
+        min-height: 220px;
+        aspect-ratio: 16 / 6.2;
+      }
+      #detailThumbnail {
+        object-fit: contain;
+        object-position: center center;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .detail-preview-controls {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        max-width: calc(100% - 88px);
+      }
+      .detail-preview-control {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid #9a9a9a;
+        background: rgba(255, 255, 255, 0.9);
+        color: #5f5f5f;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        transition: background-color 160ms ease, transform 160ms ease;
+      }
+      .detail-preview-control:hover {
+        background: #ffffff;
       }
       .detail-copy {
         overflow-wrap: anywhere;
@@ -70,8 +128,9 @@
       .detail-copy-scroll {
         flex: 1;
         min-height: 0;
-        max-height: 180px;
+        max-height: 210px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         padding-right: 8px;
       }
       .detail-copy-scroll::-webkit-scrollbar {
@@ -95,10 +154,15 @@
       }
       @media (min-width: 1024px) {
         .detail-card {
-          min-height: 318px;
+          min-height: 320px;
         }
         .detail-preview__canvas {
-          min-height: 0;
+          min-height: 320px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .detail-preview__canvas {
+          min-height: 340px;
         }
       }
     </style>
@@ -134,13 +198,13 @@
       <div id="detailContent" class="w-full flex flex-col gap-7" style="display:none;">
 
         <!-- Header row -->
-        <div class="w-full flex flex-col gap-4">
+        <div class="w-full flex flex-col gap-5">
           <a href="home.html" class="detail-back-button inline-flex items-center justify-center gap-2 w-fit min-w-[170px] h-9 px-4 rounded-full text-white text-base font-bold no-underline transition">
             <span class="text-[22px] leading-none" aria-hidden="true">←</span>
             <span>Back to Home</span>
           </a>
-          <div class="flex flex-wrap items-center justify-between gap-4 mt-3">
-            <h1 class="text-[32px] lg:text-[36px] font-bold leading-tight text-white text-left" id="detailTitle">Dashboard</h1>
+          <div class="flex flex-wrap items-center justify-between gap-4 mt-1">
+            <h1 class="text-[30px] sm:text-[36px] lg:text-[42px] font-bold leading-tight text-white text-left" id="detailTitle">Dashboard</h1>
             <span class="px-7 py-2.5 rounded-full text-white text-base font-bold shrink-0"
               id="detailFrequency"
               style="background: rgba(68,68,68,0.72); border: 1px solid rgba(230,56,60,0.38); box-shadow: inset -1px 1px 11px rgba(230,56,60,0.56), 0 12px 22px rgba(0,0,0,0.18);">
@@ -150,39 +214,68 @@
         </div>
 
         <!-- Main grid -->
-        <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="w-full flex flex-col gap-6">
 
-          <!-- Embed / thumbnail panel -->
-          <article class="detail-preview detail-card rounded-[24px] overflow-hidden p-3">
-            <div class="detail-preview__canvas relative block h-full rounded-[20px] overflow-hidden bg-black/20" id="detailPreviewLink">
-              <iframe class="absolute inset-0 w-full h-full pointer-events-auto" id="detailFrame" title="Power BI dashboard" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
-              <img class="absolute inset-0 w-full h-full object-cover pointer-events-none" id="detailThumbnail" alt="" />
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50 pointer-events-none" id="detailEmpty">
-                <strong class="text-white/70">Dashboard preview</strong>
-                <span class="text-sm">Power BI URL belum tersedia untuk dashboard ini.</span>
+          <div class="grid w-full grid-cols-1 lg:grid-cols-[2.05fr_1fr] gap-6">
+            <!-- Embed / thumbnail panel -->
+            <article class="detail-preview detail-card rounded-[18px] overflow-hidden p-3 flex">
+              <div class="detail-preview__canvas relative block h-full rounded-[14px] overflow-hidden bg-black/20" id="detailPreviewLink">
+                <iframe class="absolute inset-0 w-full h-full pointer-events-auto" id="detailFrame" title="Power BI dashboard" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+                <img class="absolute inset-0 w-full h-full object-contain bg-white pointer-events-none" id="detailThumbnail" alt="" />
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50 pointer-events-none" id="detailEmpty">
+                  <strong class="text-white/70">Dashboard preview</strong>
+                  <span class="text-sm">Power BI URL belum tersedia untuk dashboard ini.</span>
+                </div>
+                <div class="detail-preview-controls">
+                  <button class="detail-preview-control" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
+                  <button class="detail-preview-control" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
+                  <a class="detail-preview-control" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">↗</a>
+                </div>
               </div>
-              <div class="absolute right-3 top-3 flex items-center gap-2 z-20">
-                <button class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors" id="detailZoomIn" type="button" aria-label="Zoom in">+</button>
-                <button class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors" id="detailZoomOut" type="button" aria-label="Zoom out">−</button>
-                <a class="w-8 h-8 bg-white/85 hover:bg-white rounded-full border border-[#9a9a9a] flex items-center justify-center text-[#5f5f5f] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors no-underline" id="detailOpenNewTab" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">↗</a>
-              </div>
-            </div>
-          </article>
+            </article>
 
-          <article class="detail-panel detail-card rounded-[24px] px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
-            <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Objective</h2>
-            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailObjective"></div>
-          </article>
+            <article class="detail-panel detail-card rounded-[18px] px-8 pb-8 pt-7 lg:px-8 lg:pb-8 lg:pt-8 flex flex-col justify-start overflow-hidden">
+              <h2 class="text-[24px] lg:text-[28px] font-bold text-white mb-5 leading-tight inline-flex items-center gap-3">
+                <span>Data Usage</span>
+                <svg class="w-7 h-7 lg:w-8 lg:h-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M4 19H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 16V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M12 16V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 16V13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </h2>
+              <div class="detail-copy detail-copy-scroll text-[16px] lg:text-[18px] text-white leading-relaxed text-justify" id="detailUsage"></div>
+            </article>
+          </div>
 
-          <article class="detail-panel detail-card rounded-[24px] px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
-            <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Data Usage</h2>
-            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailUsage"></div>
-          </article>
+          <div class="grid w-full grid-cols-1 lg:grid-cols-2 gap-6">
+            <article class="detail-panel detail-card rounded-[18px] px-8 pb-8 pt-7 lg:px-9 lg:pb-9 lg:pt-8 flex flex-col justify-start overflow-hidden">
+              <h2 class="text-[24px] lg:text-[28px] font-bold text-white mb-5 leading-tight inline-flex items-center gap-3">
+                <span>Business Question</span>
+                <svg class="w-7 h-7 lg:w-8 lg:h-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 13.5C12.8284 13.5 13.5 12.8284 13.5 12C13.5 11.1716 12.8284 10.5 12 10.5C11.1716 10.5 10.5 11.1716 10.5 12C10.5 12.8284 11.1716 13.5 12 13.5Z" fill="currentColor"/>
+                  <path d="M12 12L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M18.5 4H20V5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </h2>
+              <div class="detail-copy detail-copy-scroll text-[16px] lg:text-[18px] text-white leading-relaxed text-justify" id="detailQuestion"></div>
+            </article>
 
-          <article class="detail-panel detail-card rounded-[24px] px-8 pb-8 pt-6 lg:px-10 lg:pb-10 lg:pt-7 flex flex-col justify-start overflow-hidden">
-            <h2 class="text-[22px] lg:text-[24px] font-bold text-white mb-5">Business Question</h2>
-            <div class="detail-copy detail-copy-scroll text-[16px] text-white leading-relaxed text-justify" id="detailQuestion"></div>
-          </article>
+            <article class="detail-panel detail-card rounded-[18px] px-8 pb-8 pt-7 lg:px-9 lg:pb-9 lg:pt-8 flex flex-col justify-start overflow-hidden">
+              <h2 class="text-[24px] lg:text-[28px] font-bold text-white mb-5 leading-tight inline-flex items-center gap-3">
+                <span>Objective</span>
+                <svg class="w-7 h-7 lg:w-8 lg:h-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M9.75 9.5C9.95 8.35 10.82 7.75 12 7.75C13.29 7.75 14.25 8.5 14.25 9.67C14.25 10.48 13.84 10.98 13.02 11.5C12.25 11.98 11.96 12.42 11.96 13.25" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M12 16.25H12.01" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </h2>
+              <div class="detail-copy detail-copy-scroll text-[16px] lg:text-[18px] text-white leading-relaxed text-justify" id="detailObjective"></div>
+            </article>
+          </div>
 
         </div>
       </div>
