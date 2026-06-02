@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE_URL = window.API_BASE_URL || "http://localhost:1337";
+  const API_BASE_URL = window.API_BASE_URL || "https://optimistic-desk-3615e76660.strapiapp.com";
   const AUTH_STORAGE_KEY = "inspireAuth";
   const DEFAULT_THUMBNAIL = "../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png";
 
