@@ -131,6 +131,12 @@
         display: none;
       }
 
+      .landing-nav__mobile-actions {
+        display: none;
+        align-items: center;
+        gap: 8px;
+      }
+
       .nav-tab {
         display: flex;
         align-items: center;
@@ -173,7 +179,7 @@
         background: #f23b40;
       }
 
-      @media (max-width: 1023px) {
+      @media (max-width: 1180px) {
         #navbar-placeholder {
           top: 16px;
         }
@@ -192,9 +198,30 @@
 
         .landing-nav__tabs-wrap,
         .landing-nav > .landing-nav__search,
-        .landing-nav > .landing-nav__archive,
-        .landing-nav > .landing-nav__logout {
+        .landing-nav > .landing-nav__desktop-action {
           display: none;
+        }
+
+        .landing-nav__mobile-actions {
+          display: flex;
+        }
+
+        .landing-nav__mobile-actions .landing-nav__archive {
+          width: 44px;
+          height: 36px;
+          padding: 0;
+          border-radius: 999px;
+        }
+
+        .landing-nav__mobile-actions .landing-nav__archive span {
+          display: none;
+        }
+
+        .landing-nav__mobile-actions .landing-nav__logout {
+          height: 36px;
+          min-width: 78px;
+          padding: 0 16px;
+          font-size: 12px;
         }
 
         .landing-nav__menu {
@@ -220,15 +247,25 @@
           gap: 8px;
         }
 
-        #navMobileDrawer > div {
-          display: flex;
-          gap: 8px;
-        }
       }
 
       @media (max-width: 420px) {
         .landing-nav__brand img {
           height: 28px;
+        }
+
+        .landing-nav {
+          gap: 8px;
+          padding-inline: 12px;
+        }
+
+        .landing-nav__mobile-actions {
+          gap: 6px;
+        }
+
+        .landing-nav__mobile-actions .landing-nav__logout {
+          min-width: 66px;
+          padding-inline: 12px;
         }
       }
     `;
@@ -266,19 +303,19 @@
         </button>
       </div>
 
-      <a class="landing-nav__archive nav-hide hidden lg:flex items-center justify-center gap-2 h-[48px] px-4 rounded-[24px] text-[13px] font-semibold text-white no-underline whitespace-nowrap hover:bg-white/10 transition-colors shrink-0"
+      <a class="landing-nav__archive landing-nav__desktop-action nav-hide hidden lg:flex items-center justify-center gap-2 h-[48px] px-4 rounded-[24px] text-[13px] font-semibold text-white no-underline whitespace-nowrap hover:bg-white/10 transition-colors shrink-0"
         href="archive.html?view=archive">
         Archive
         <img src="../assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" class="w-5 h-5" alt="" />
       </a>
 
-      <a class="landing-nav__logout nav-hide hidden lg:flex items-center justify-center h-[48px] min-w-[116px] px-6 rounded-full text-white font-semibold text-[15px] no-underline whitespace-nowrap shrink-0"
+      <a class="landing-nav__logout landing-nav__desktop-action nav-hide hidden lg:flex items-center justify-center h-[48px] min-w-[116px] px-6 rounded-full text-white font-semibold text-[15px] no-underline whitespace-nowrap shrink-0"
         href="login.html" style="background: ${LOGOUT_BG};">
         Log Out
       </a>
 
       <button
-        class="landing-nav__menu lg:hidden shrink-0 flex flex-col items-center justify-center gap-[5px] w-10 h-10 bg-[#2f2f2f]/80 border border-white/50 rounded-full cursor-pointer ml-auto"
+        class="landing-nav__menu lg:hidden shrink-0 flex flex-col items-center justify-center gap-[5px] w-10 h-10 bg-[#2f2f2f]/80 border border-white/50 rounded-full cursor-pointer"
         id="navHamburger" type="button" aria-label="Toggle menu"
         aria-expanded="false" aria-controls="navMobileDrawer"
       >
@@ -286,6 +323,18 @@
         <span class="hamburger-bar block w-5 h-0.5 bg-white rounded transition-all duration-200"></span>
         <span class="hamburger-bar block w-5 h-0.5 bg-white rounded transition-all duration-200"></span>
       </button>
+
+      <div class="landing-nav__mobile-actions">
+        <a class="landing-nav__archive flex items-center justify-center gap-1.5 text-white no-underline hover:bg-white/10 transition-colors shrink-0"
+          href="archive.html?view=archive" aria-label="Archive">
+          <span>Archive</span>
+          <img src="../assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" class="w-[18px] h-[18px]" alt="" />
+        </a>
+        <a class="landing-nav__logout flex items-center justify-center rounded-full text-white font-semibold no-underline whitespace-nowrap shrink-0"
+          href="login.html" style="background: ${LOGOUT_BG};">
+          Log Out
+        </a>
+      </div>
     </header>
 
     <div class="landing-nav-mobile-search lg:hidden flex items-center mt-2 h-[46px] rounded-full px-1">
@@ -301,17 +350,6 @@
     <div id="navMobileDrawer" class="mt-2 p-3 rounded-[28px] flex-col gap-3 shadow-xl"
       style="display:none;" aria-label="Mobile navigation">
       <nav class="grid grid-cols-2 gap-2" aria-label="Categories">${mobileTabs}</nav>
-      <div class="flex gap-2">
-        <a class="landing-nav__archive flex-1 flex items-center justify-center gap-1.5 h-[42px] px-3 rounded-full text-[12px] font-semibold text-white no-underline hover:bg-white/10 transition-colors"
-          href="archive.html?view=archive">
-          Archive
-          <img src="../assets/dashboard/4a7d0c974c3da3726c48c18b3f75ffb320164f02.svg" class="w-[18px] h-[18px]" alt="" />
-        </a>
-        <a class="landing-nav__logout flex-1 flex items-center justify-center h-[42px] px-3 rounded-full text-white font-semibold text-sm no-underline"
-          href="login.html" style="background: ${LOGOUT_BG};">
-          Log Out
-        </a>
-      </div>
     </div>
   `;
 

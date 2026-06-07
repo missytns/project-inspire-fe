@@ -72,12 +72,12 @@
         background: #140808;
       }
       html.search-mode .home-hero__decor,
-      html.search-mode .home-hero__labels,
       html.search-mode .home-hero__copy,
+      html.search-mode .home-hero__mobile-panels,
       html.search-mode .home-hero__fade,
       body.home-searching .home-hero__decor,
-      body.home-searching .home-hero__labels,
       body.home-searching .home-hero__copy,
+      body.home-searching .home-hero__mobile-panels,
       body.home-searching .home-hero__fade {
         display: none !important;
       }
@@ -95,40 +95,12 @@
         min-height: calc(100vh - 136px);
       }
       .home-hero__mobile-visual,
-      .home-hero__mobile-labels,
       .home-hero__mobile-panels {
         display: none !important;
       }
       @media (min-width: 1024px) {
         .home-hero {
           min-height: 780px;
-        }
-        .home-hero__labels {
-          display: none !important;
-          grid-template-columns: repeat(2, max-content);
-          justify-content: center;
-          gap: 44px 190px;
-          position: absolute !important;
-          left: 50%;
-          top: 415px;
-          width: 640px;
-          margin-left: 0;
-          transform: translateX(-50%);
-          z-index: 12;
-          transition: opacity 0.16s ease, visibility 0.16s ease;
-        }
-        .home-hero__labels p {
-          position: static !important;
-          margin: 0;
-        }
-        .home-hero__labels p:last-child {
-          grid-column: 1 / -1;
-        }
-        .home-hero__label-img {
-          display: block;
-          height: 18px;
-          width: auto;
-          opacity: 0.86;
         }
         .home-hero__decor-card {
           opacity: 1;
@@ -153,9 +125,6 @@
           opacity: 0.36;
           transform: translateY(-44px) scale(1.04);
           transform-origin: top center;
-        }
-        .home-hero__labels {
-          display: none !important;
         }
         .home-hero__mobile-visual {
           display: none;
@@ -184,29 +153,6 @@
         .home-hero__copy a {
           width: min(100%, 220px);
           height: 52px;
-        }
-        .home-hero__mobile-labels {
-          display: grid !important;
-          grid-template-columns: repeat(2, minmax(0, max-content));
-          justify-content: center;
-          align-items: center;
-          gap: 18px 20px;
-          width: 100%;
-          margin-top: 54px;
-          padding-inline: 24px;
-        }
-        .home-hero__mobile-labels p {
-          margin: 0;
-        }
-        .home-hero__mobile-labels p:last-child {
-          grid-column: 1 / -1;
-          justify-self: center;
-        }
-        .home-hero__mobile-labels .home-hero__label-img {
-          height: 18px;
-          max-width: 150px;
-          object-fit: contain;
-          opacity: 0.72;
         }
         .home-hero__mobile-panels {
           display: flex !important;
@@ -257,15 +203,6 @@
         .home-hero__copy a span:last-child {
           font-size: 16px;
         }
-        .home-hero__mobile-labels {
-          margin-top: 50px;
-          gap: 16px 14px;
-          padding-inline: 16px;
-        }
-        .home-hero__mobile-labels .home-hero__label-img {
-          height: 16px;
-          max-width: 136px;
-        }
         .home-hero__mobile-panels {
           width: calc(100% - 56px);
           margin-top: 46px;
@@ -273,7 +210,6 @@
       }
       @media (min-width: 1024px) {
         .home-hero__mobile-visual,
-        .home-hero__mobile-labels,
         .home-hero__mobile-panels {
           display: none !important;
         }
@@ -330,18 +266,6 @@
           <span class="font-inter text-[16px] lg:text-[18px] text-[#ffd5d5]">Start to Explore</span>
         </a>
 
-      </div>
-
-      <div class="home-hero__labels hidden lg:grid pointer-events-none font-inter" aria-hidden="true">
-        <p><img class="home-hero__label-img" src="../assets/knowledge-lib.png" alt="" /></p>
-        <p><img class="home-hero__label-img" src="../assets/data-vis.png" alt="" /></p>
-        <p><img class="home-hero__label-img" src="../assets/insight-data.png" alt="" /></p>
-      </div>
-
-      <div class="home-hero__mobile-labels lg:hidden" aria-hidden="true">
-        <p><img class="home-hero__label-img" src="../assets/knowledge-lib.png" alt="" /></p>
-        <p><img class="home-hero__label-img" src="../assets/data-vis.png" alt="" /></p>
-        <p><img class="home-hero__label-img" src="../assets/insight-data.png" alt="" /></p>
       </div>
 
       <div class="home-hero__mobile-panels lg:hidden" aria-hidden="true">
