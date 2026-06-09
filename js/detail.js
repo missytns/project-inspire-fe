@@ -1,9 +1,7 @@
 (function () {
   const API_BASE_URL = window.API_BASE_URL || "https://optimistic-desk-3615e76660.strapiapp.com";
-  const AUTH_ME_ENDPOINT = `${API_BASE_URL}/api/users/me`;
   const AUTH_STORAGE_KEY = "inspireAuth";
   const DEFAULT_THUMBNAIL = "../assets/dashboard/2ab368079453c27e55a7c4748363b84b90049f0f.png";
-  const POWER_BI_PREVIEW_DOMAIN = "@astra-honda.com";
 
   const auth = readAuth();
   if (!auth?.jwt) {
@@ -33,7 +31,6 @@
   const previewLinkEl = document.getElementById("detailPreviewLink");
 
   let zoom = 1;
-  let currentUser = auth.user || null;
 
   function getSafeReturnTo(value) {
     if (!value) return "home.html";
@@ -99,24 +96,6 @@
   function redirectToLogin() {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     window.location.replace("login.html");
-  }
-
-  function userEmail(user) {
-    return String(user?.email || user?.username || "").trim().toLowerCase();
-  }
-
-  function canPreviewPowerBi(user) {
-    return userEmail(user).endsWith(POWER_BI_PREVIEW_DOMAIN);
-  }
-
-  async function loadCurrentUser() {
-    if (currentUser?.email || currentUser?.username) return currentUser;
-    const res = await fetch(AUTH_ME_ENDPOINT, { headers: authHeaders() });
-    if (res.status === 401 || res.status === 403) { redirectToLogin(); return null; }
-    if (!res.ok) throw new Error(`Auth check returned ${res.status}`);
-    currentUser = await res.json();
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ ...auth, user: currentUser }));
-    return currentUser;
   }
 
   function showError(msg) {
@@ -313,6 +292,23 @@
     try {
       const url = new URL(value);
       if (url.hostname.includes("powerbi.com")) {
+        if (url.pathname.includes("/reports/") && !url.pathname.includes("/reportEmbed")) {
+          const parts = url.pathname.split("/").filter(Boolean);
+          const groupIndex = parts.indexOf("groups");
+          const reportIndex = parts.indexOf("reports");
+          const groupId = groupIndex >= 0 ? parts[groupIndex + 1] : "";
+          const reportId = reportIndex >= 0 ? parts[reportIndex + 1] : "";
+
+          if (groupId && reportId) {
+            const embedUrl = new URL(`${url.origin}/reportEmbed`);
+            embedUrl.searchParams.set("reportId", reportId);
+            embedUrl.searchParams.set("groupId", groupId);
+            embedUrl.searchParams.set("autoAuth", "true");
+            if (url.searchParams.get("ctid")) embedUrl.searchParams.set("ctid", url.searchParams.get("ctid"));
+            embedUrl.searchParams.set("pageView", "fitToWidth");
+            return embedUrl.toString();
+          }
+        }
         url.searchParams.set("pageView", "fitToWidth");
       }
       return url.toString();
@@ -341,7 +337,7 @@
   }
 
   function renderReport(report) {
-    const canShowPowerBiPreview = Boolean(report.url && canPreviewPowerBi(currentUser));
+    const canShowPowerBiPreview = Boolean(report.url);
     const canShowThumbnail = !canShowPowerBiPreview && Boolean(report.thumbnail);
 
     if (titleEl) titleEl.textContent = report.title;
@@ -374,11 +370,10 @@
     }
     if (emptyEl) {
       emptyEl.hidden = canShowPowerBiPreview || canShowThumbnail;
+      emptyEl.style.display = canShowPowerBiPreview || canShowThumbnail ? "none" : "flex";
       const message = emptyEl.querySelector("span");
       if (message) {
-        message.textContent = report.url
-          ? `Preview Power BI hanya tersedia untuk user ${POWER_BI_PREVIEW_DOMAIN}.`
-          : "Power BI URL belum tersedia untuk dashboard ini.";
+        message.textContent = "Power BI URL belum tersedia untuk dashboard ini.";
       }
     }
     if (openTabEl) {
@@ -417,7 +412,6 @@
   async function init() {
     if (!reportId) { showError("No dashboard ID provided."); return; }
     try {
-      await loadCurrentUser();
       let res = await fetch(
         `${API_BASE_URL}/api/power-bi-dashboards?filters[documentId][$eq]=${encodeURIComponent(reportId)}&populate=*`,
         { headers: authHeaders() }

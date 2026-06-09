@@ -106,6 +106,16 @@
       .detail-preview-control:hover {
         background: #ffffff;
       }
+      .detail-preview-control:focus,
+      .detail-preview-control:active,
+      .detail-preview-control:visited {
+        background: rgba(255, 255, 255, 0.9);
+        color: #5f5f5f;
+        outline: none;
+      }
+      .detail-preview-control:focus-visible {
+        box-shadow: 0 0 0 3px rgba(95,95,95,0.22), 0 2px 8px rgba(0,0,0,0.18);
+      }
       .detail-copy {
         overflow-wrap: anywhere;
         word-break: break-word;
