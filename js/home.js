@@ -225,9 +225,9 @@
 
   // ─── Card rendering ───────────────────────────────────────────────────────
 
-  function createCard(report, fullWidth = false) {
+  function createCard(report) {
     const article = document.createElement("article");
-    article.className = `project-card relative flex flex-col items-center ${fullWidth ? "w-full max-w-[292px]" : "flex-shrink-0 w-[270px] lg:w-[292px]"} px-5 pt-6 pb-5 rounded-[18px] overflow-hidden`;
+    article.className = "project-card relative flex flex-col items-center flex-shrink-0 w-[270px] lg:w-[292px] px-5 pt-6 pb-5 rounded-[18px] overflow-hidden";
     article.style.cssText = [
       "min-height:347px",
       "background: radial-gradient(circle at 50% -10%, rgba(239,61,66,0.88) 0%, rgba(113,35,36,0.78) 34%, rgba(50,45,45,0.8) 70%, rgba(30,30,30,0.92) 100%)",
@@ -411,8 +411,7 @@
       renderMessage(container, emptyMessage);
       return;
     }
-    const fullWidth = container.id === "allReports";
-    items.forEach((r) => container.appendChild(createCard(r, fullWidth)));
+    items.forEach((r) => container.appendChild(createCard(r)));
   }
 
   function matchesTitleSearch(report, searchTerm) {
